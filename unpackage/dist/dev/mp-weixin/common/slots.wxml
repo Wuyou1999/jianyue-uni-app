@@ -1,0 +1,11 @@
+<import src="/node-modules/@dcloudio/uni-ui/lib/uni-list/uni-list.vue.wxml" />
+<import src="/node-modules/@dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue.wxml" />
+
+<template name="data-v-c3c53d0e-default-63c327b5-1"><template wx:key="index" thumb="https://upload-images.jianshu.io/upload_images/16150151-477ce947c1d1f48c.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240" data="{{...$root['0'], ...$root[$kk+'63c327b5-0-'+index],$root}}" is="0e5fb57e" wx:for="{{articles}}" wx:for-index="index" wx:for-item="article"></template></template>
+
+<template name="data-v-76143aca-default-911f9e52-3"><template title="推送功能" show-switch="true" show-arrow="false" bindswitchChange="handleProxy" data-eventid="{{'911f9e52-0'}}" data-comkey="{{$k}}" data="{{...$root['0'], ...$root[$kk+'911f9e52-0'],$root}}" is="0e5fb57e"></template><template title="文章推送" show-badge="true" badge-text="5" hidden="{{!(followed === true)}}" data="{{...$root['0'], ...$root[$kk+'911f9e52-1'],$root}}" is="0e5fb57e"></template><template title="新消息推送" show-badge="true" badge-text="99+" hidden="{{!(followed === true)}}" data="{{...$root['0'], ...$root[$kk+'911f9e52-2'],$root}}" is="0e5fb57e"></template></template>
+
+<template name="data-v-76143aca-default-911f9e52-7"><navigator url="../userinfo/userinfo" class="_navigator data-v-76143aca"><template title="编辑个人资料" data="{{...$root['0'], ...$root[$kk+'911f9e52-4'],$root}}" is="0e5fb57e"></template></navigator><template title="默认编辑器" data="{{...$root['0'], ...$root[$kk+'911f9e52-5'],$root}}" is="0e5fb57e"></template><template title="添加文章到封面" data="{{...$root['0'], ...$root[$kk+'911f9e52-6'],$root}}" is="0e5fb57e"></template></template>
+
+<template name="data-v-76143aca-default-911f9e52-9"><template title="回收站" data="{{...$root['0'], ...$root[$kk+'911f9e52-8'],$root}}" is="0e5fb57e"></template></template>
+

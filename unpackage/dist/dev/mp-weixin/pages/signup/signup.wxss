@@ -1,0 +1,38 @@
+
+._input.data-v-3b7f8479 {
+	height: 50px;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+}
+.mobile-input.data-v-3b7f8479 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	height: 50px;
+	border-bottom: 1px solid #eee;
+}
+.message.data-v-3b7f8479 {
+	background-color: rgb(26, 160, 52);
+	height: 47px;
+	width: 45%;
+	color: #FFFFFF;
+	outline: none;
+}
+.content.data-v-3b7f8479 {
+	text-align: center;
+	height: 150rpx;
+}
+.logo.data-v-3b7f8479 {
+	height: 200rpx;
+	width: 200rpx;
+	margin-top: 200rpx;
+}
+.title.data-v-3b7f8479 {
+	font-size: 36rpx;
+	color: #8f8f94;
+}
+.code.data-v-3b7f8479{
+	margin-bottom: 10rpx;
+}
+

@@ -1,0 +1,47 @@
+
+.icon-text {
+	font-size: 20pt;
+	color: #fff;
+}
+.circle-btn {
+	position: absolute;
+	bottom: 20px;
+	right: 10px;
+	width: 45px;
+	height: 45px;
+	border-radius: 50%;
+	background-color: #de533a;
+	background: -o-linear-gradient(50deg, #ffd86f, #fc6262);
+	background: linear-gradient(40deg, #ffd86f, #fc6262);
+	-webkit-box-shadow: 2px 5px 10px #aaa;
+	        box-shadow: 2px 5px 10px #aaa;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+}
+.header {
+	width: 100%;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.header-character {
+	height: 30px;
+	width: 33.3%;
+	color:#DE533A;
+	/* border: 1px solid black; */
+}
+

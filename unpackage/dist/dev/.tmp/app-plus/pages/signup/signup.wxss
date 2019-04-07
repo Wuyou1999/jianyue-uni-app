@@ -1,0 +1,21 @@
+
+._input.data-v-3b7f8479 {
+	height: 50px;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+}
+.mobile-input.data-v-3b7f8479 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	height: 50px;
+	border-bottom: 1px solid #eee;
+}
+.message.data-v-3b7f8479 {
+	background-color: rgb(26, 160, 52);
+	height: 47px;
+	color: #FFFFFF;
+	outline: none;
+}
+
