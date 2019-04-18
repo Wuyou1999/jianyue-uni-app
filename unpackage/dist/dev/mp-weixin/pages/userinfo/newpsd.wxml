@@ -1,0 +1,2 @@
+<import src="./newpsd.vue.wxml" />
+    <template is="21a0203d" data="{{ ...$root['0'], $root }}"/>

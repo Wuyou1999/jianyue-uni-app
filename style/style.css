@@ -1,13 +1,11 @@
-*{
-	/* font-size: 14pt; */
-}
+
 .container {
 	width: 95%;
 	margin: 0 auto;
 }
 .avatar {
-	width: 60px;
-	height: 60px;
+	width: 65px;
+	height: 65px;
 	border-radius: 50%;
 }
 .list {
@@ -15,7 +13,7 @@
 	flex-direction: column;
 }
 .list-item {
-	width: 100%;
+	width: 98%;
 	height: 40px;
 	background-color: #fff;
 	border-bottom: 1px solid #eee;

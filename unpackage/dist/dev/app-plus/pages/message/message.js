@@ -1,12 +1,2 @@
-
-      !(function(){
-        var uniAppViewReadyCallback = function(){
-          document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/message/message.wxml') } }));
-        }
-        if(window.__uniAppViewReady__){
-          uniAppViewReadyCallback()
-        }else{
-          document.addEventListener('uniAppViewReady',uniAppViewReadyCallback)
-        }
-      })();
-      
+setCssToHead([".",[1],"item1.",[1],"data-v-89ef8fee{ height:35px; border-bottom: 1px solid #eee; }\n.",[1],"msg1.",[1],"data-v-89ef8fee { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; text-align: center; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; color: rgb(25, 190, 107); font-size: 20px; }\n.",[1],"msg.",[1],"data-v-89ef8fee { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column; font-size: 18px; }\n",],undefined,{path:"./pages/message/message.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/message/message.wxml') } }));

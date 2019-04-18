@@ -1,0 +1,2 @@
+setCssToHead(["wx-input.",[1],"data-v-b4a2c4da { height: 50px; border-bottom: 1px solid #eee; margin-bottom: 5px; }\n.",[1],"loginbutt.",[1],"data-v-b4a2c4da { margin: 0 auto; width: 80%; border-radius: 30px; background-color: #EA6F5A; color: white; }\n.",[1],"loginbutt.",[1],"data-v-b4a2c4da:hover { background-color:rgb(229, 140, 124); }\n",],undefined,{path:"./pages/resetpsd/resetpassword.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/resetpsd/resetpassword.wxml') } }));

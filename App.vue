@@ -14,4 +14,5 @@
 
 <style>
 	@import 'style/style.css';
+	@import './graceUI/graceUI.css';
 </style>

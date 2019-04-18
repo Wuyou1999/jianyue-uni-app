@@ -56,12 +56,30 @@ var _uniListItem = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-
   },
   methods: {
     logout: function logout() {
+      uni.showLoading({
+        title: '正在退出' });
+
       console.log('log out');
       uni.removeStorageSync('login_key');
-      uni.showToast({
-        title: '已经退出当前账号' });
+      uni.hideLoading();
+      /* uni.showToast({
+                         	title: '已经退出当前账号',
+                         	duration: 2500
+                         }); */
+      uni.showModal({
+        title: '提示',
+        content: '确认退出吗？',
+        cancelText: '再等等',
+        cancelColor: '#EA6F5A',
+        success: function success(res) {
+          if (res.confirm) {
+            uni.navigateBack();
+          } else if (res.cancel) {
+            console.log('用户点击取消');
+          };
+        } });
 
-      uni.navigateBack();
+
     },
     black: function black() {
       this.followed = !this.followed;
@@ -102,105 +120,87 @@ var render = function() {
       { staticClass: "list" },
       [
         _vm._m(0),
-        _c(
-          "uni-list",
-          { attrs: { mpcomid: "911f9e52-3" } },
-          [
-            _c("uni-list-item", {
-              attrs: {
-                title: "推送功能",
-                "show-switch": "true",
-                "show-arrow": "false",
-                eventid: "911f9e52-0",
-                mpcomid: "911f9e52-0"
-              },
-              on: { switchChange: _vm.black }
-            }),
-            _c("uni-list-item", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.followed === true,
-                  expression: "followed === true"
-                }
-              ],
-              attrs: {
-                title: "文章推送",
-                "show-badge": "true",
-                "badge-text": "5",
-                mpcomid: "911f9e52-1"
-              }
-            }),
-            _c("uni-list-item", {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.followed === true,
-                  expression: "followed === true"
-                }
-              ],
-              attrs: {
-                title: "新消息推送",
-                "show-badge": "true",
-                "badge-text": "99+",
-                mpcomid: "911f9e52-2"
-              }
-            })
+        _c("uni-list-item", {
+          attrs: {
+            title: "推送功能",
+            "show-switch": "true",
+            "show-arrow": "false",
+            "switch-checked": "true",
+            eventid: "911f9e52-0",
+            mpcomid: "911f9e52-0"
+          },
+          on: { switchChange: _vm.black }
+        }),
+        _c("uni-list-item", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.followed === false,
+              expression: "followed === false"
+            }
           ],
-          1
-        ),
+          attrs: {
+            title: "文章推送",
+            "show-badge": "true",
+            "badge-text": "5",
+            mpcomid: "911f9e52-1"
+          }
+        }),
+        _c("uni-list-item", {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.followed === false,
+              expression: "followed === false"
+            }
+          ],
+          attrs: {
+            title: "新消息推送",
+            "show-badge": "true",
+            "badge-text": "99+",
+            mpcomid: "911f9e52-2"
+          }
+        }),
         _vm._m(1),
         _c(
-          "uni-list",
-          { attrs: { mpcomid: "911f9e52-7" } },
+          "navigator",
+          { attrs: { url: "../userinfo/userinfo" } },
           [
-            _c(
-              "navigator",
-              { attrs: { url: "../userinfo/userinfo" } },
-              [
-                _c("uni-list-item", {
-                  attrs: { title: "编辑个人资料", mpcomid: "911f9e52-4" }
-                })
-              ],
-              1
-            ),
             _c("uni-list-item", {
-              attrs: { title: "默认编辑器", mpcomid: "911f9e52-5" }
-            }),
-            _c("uni-list-item", {
-              attrs: { title: "添加文章到封面", mpcomid: "911f9e52-6" }
+              attrs: { title: "编辑个人资料", mpcomid: "911f9e52-3" }
             })
           ],
           1
         ),
+        _c("uni-list-item", {
+          attrs: { title: "默认编辑器", mpcomid: "911f9e52-4" }
+        }),
+        _c("uni-list-item", {
+          attrs: { title: "添加文章到封面", mpcomid: "911f9e52-5" }
+        }),
+        _c("uni-list-item", {
+          attrs: { title: "赞赏设置", mpcomid: "911f9e52-6" }
+        }),
+        _c("uni-list-item", {
+          attrs: { title: "字号设置", mpcomid: "911f9e52-7" }
+        }),
+        _c("uni-list-item", {
+          attrs: { title: "隐私设置", mpcomid: "911f9e52-8" }
+        }),
         _vm._m(2),
+        _c("uni-list-item", {
+          attrs: { title: "回收站", mpcomid: "911f9e52-9" }
+        }),
         _c(
-          "uni-list",
-          { attrs: { mpcomid: "911f9e52-9" } },
-          [
-            _c("uni-list-item", {
-              attrs: { title: "回收站", mpcomid: "911f9e52-8" }
-            })
-          ],
-          1
-        ),
-        _c(
-          "view",
-          { staticClass: "list-item" },
-          [
-            _c(
-              "button",
-              {
-                staticClass: "out",
-                attrs: { type: "primary", eventid: "911f9e52-1" },
-                on: { tap: _vm.logout }
-              },
-              [_vm._v("退出当前账号")]
-            )
-          ],
-          1
+          "button",
+          {
+            staticClass: "out",
+            attrs: { eventid: "911f9e52-1" },
+            on: { tap: _vm.logout }
+          },
+          [_vm._v("退出当前账号")]
         )
       ],
       1

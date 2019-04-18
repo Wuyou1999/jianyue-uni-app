@@ -150,6 +150,36 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _uniGrid = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-grid/uni-grid.vue */ "E:\\VueStudy\\jianyue-uni-app\\node_modules\\@dcloudio\\uni-ui\\lib\\uni-grid\\uni-grid.vue"));
 var _uniList = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-list/uni-list.vue */ "E:\\VueStudy\\jianyue-uni-app\\node_modules\\@dcloudio\\uni-ui\\lib\\uni-list\\uni-list.vue"));
 var _uniListItem = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue */ "E:\\VueStudy\\jianyue-uni-app\\node_modules\\@dcloudio\\uni-ui\\lib\\uni-list-item\\uni-list-item.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var loginRes, _self;var _default =
@@ -162,40 +192,50 @@ var _uniListItem = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-
   data: function data() {
     return {
       storageData: {},
-      articlenum: '20',
-      attennum: '1w',
-      messnum: '99+',
-      scores: '10w',
-      articles: [{
-        id: 1,
-        title: '第一篇文章',
-        content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心' },
+      articlenum: '0',
+      attennum: '0',
+      messnum: '0',
+      scores: '0',
+      swiperItems: [{
+        "imgUrl": "../../static/read1.jpg",
+        "path": "../index/index",
+        "title": "简阅",
+        "openType": "navigate" },
 
       {
-        id: 2,
-        title: '第二篇文章',
-        content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心' },
+        "imgUrl": "../../static/read2.jpg",
+        "path": "../index/index",
+        "title": "简阅",
+        "openType": "switchTab" },
 
       {
-        id: 3,
-        title: '第三篇文章',
-        content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心' },
+        "imgUrl": "../../static/read3.jpg",
+        "path": "../index/index",
+        "title": "简阅",
+        "openType": "switchTab" },
 
       {
-        id: 4,
-        title: '第四篇文章',
-        content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心' },
-
-      {
-        id: 5,
-        title: '第五篇文章',
-        content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心' }] };
+        "imgUrl": "../../static/read4.jpg",
+        "path": "../index/index",
+        "title": "简阅",
+        "openType": "switchTab" }],
 
 
-
+      follows: [],
+      fans: [],
+      articles: [] };
 
   },
-  onLoad: function onLoad() {},
+  onLoad: function onLoad() {
+    /* 	_self = this;
+                             	uni.request({
+                             		url: 'https://www.easy-mock.com/mock/5bb833775df5622d84ac87ca/example/swiperwithtitle#!method=get',
+                             		success: function(res) {
+                             			console.log(res);
+                             			_self.swiperItems = res.data.data;
+                             		}
+                             	}); */
+  },
   onShow: function onShow() {
     var _this = this;
     var loginKey = uni.getStorageSync('login_key');
@@ -211,10 +251,130 @@ var _uniListItem = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-
       this.storageData = {
         login: false };
 
-    }
-
+    };
+    this.getFollows();
+    this.getFans();
+    this.getArticle();
   },
-  methods: {} };exports.default = _default;
+  methods: {
+    follow: function follow() {
+      if (uni.getStorageSync('login_key').login === true) {
+        uni.navigateTo({
+          url: 'follow' });
+
+      } else {
+        uni.showModal({
+          title: '提示',
+          content: '对不起您还未登录!',
+          cancelText: '再等等',
+          cancelColor: '#EA6F5A',
+          success: function success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: '../signin/signin' });
+
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            };
+          } });
+
+      }
+    },
+    article: function article() {
+      if (uni.getStorageSync('login_key').login === true) {
+        uni.navigateTo({
+          url: '../articles/articles' });
+
+      } else {
+        uni.showModal({
+          title: '提示',
+          content: '对不起您还未登录!',
+          cancelText: '再等等',
+          cancelColor: '#EA6F5A',
+          success: function success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: '../signin/signin' });
+
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            };
+          } });
+
+      }
+
+    },
+    setting: function setting() {
+      if (uni.getStorageSync('login_key').login === true) {
+        uni.navigateTo({
+          url: '../setting/setting' });
+
+      } else {
+        uni.showModal({
+          title: '提示',
+          content: '对不起您还未登录!',
+          cancelText: '再等等',
+          cancelColor: '#EA6F5A',
+          success: function success(res) {
+            if (res.confirm) {
+              uni.navigateTo({
+                url: '../signin/signin' });
+
+            } else if (res.cancel) {
+              console.log('用户点击取消');
+            };
+          } });
+
+      }
+
+    },
+    Signin: function Signin() {
+      uni.navigateTo({
+        url: '../signin/signin' });
+
+    },
+    getFollows: function getFollows() {
+      var _this = this;
+      uni.request({
+        url: this.apiServer + '/follow/followlist?fromUId=' + uni.getStorageSync('login_key').userId,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' },
+
+        success: function success(res) {
+          _this.follows = res.data.data;
+        } });
+
+    },
+    getFans: function getFans() {
+      var _this = this;
+      uni.request({
+        url: this.apiServer + '/follow/fanlist?toUId=' + uni.getStorageSync('login_key').userId,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' },
+
+        success: function success(res) {
+          _this.fans = res.data.data;
+        } });
+
+    },
+    getArticle: function getArticle() {
+      var _this = this;
+      uni.request({
+        url: this.apiServer + '/article/article_list',
+        method: 'GET',
+        header: {
+          'content-type': 'application/x-www-form-urlencoded' },
+
+        data: {
+          uId: uni.getStorageSync('login_key').userId },
+
+        success: function success(res) {
+          _this.articles = res.data.data;
+        } });
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
 
 /***/ }),
@@ -333,144 +493,231 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("view", { staticClass: "container" }, [
-    _c("view", { staticClass: "top" }, [
-      !_vm.storageData.login
-        ? _c("view", { staticClass: "welcome" }, [
-            _c("image", { attrs: { src: "../../static/lihua.png" } }),
-            _c("text", [_vm._v("欢迎回来!")])
-          ])
-        : _vm._e(),
-      _c("view", { staticClass: "avatar-box" }, [
+  return _c(
+    "view",
+    { staticClass: "container" },
+    [
+      _c("view", { staticClass: "top" }, [
         !_vm.storageData.login
-          ? _c("image", {
-              staticClass: "avatar",
-              attrs: { src: "../../static/default.png", mode: "scaleToFill" }
-            })
+          ? _c("view", { staticClass: "avatar-box1" }, [
+              _c("image", {
+                staticClass: "avatar",
+                attrs: { src: "../../static/default.png", mode: "scaleToFill" }
+              }),
+              !_vm.storageData.login
+                ? _c("view", { staticClass: "info-box1" }, [
+                    _c(
+                      "text",
+                      {
+                        staticClass: "nickname",
+                        attrs: { eventid: "63c327b5-0" },
+                        on: { tap: _vm.Signin }
+                      },
+                      [_vm._v("点击登录")]
+                    ),
+                    _c("text", { staticClass: "fans" }, [
+                      _vm._v("立即领取简阅福利")
+                    ])
+                  ])
+                : _vm._e()
+            ])
           : _vm._e(),
         _vm.storageData.login
-          ? _c("image", {
-              staticClass: "avatar",
-              attrs: { src: _vm.storageData.avatar, mode: "scaleToFill" }
-            })
+          ? _c("view", { staticClass: "avatar-box1" }, [
+              _c("image", {
+                staticClass: "avatar",
+                attrs: { src: _vm.storageData.avatar, mode: "scaleToFill" }
+              }),
+              _vm.storageData.login
+                ? _c("view", { staticClass: "info-box1" }, [
+                    _c("text", { staticClass: "nickname" }, [
+                      _vm._v(_vm._s(_vm.storageData.nickname))
+                    ]),
+                    _c("text", { staticClass: "fans" }, [
+                      _vm._v(
+                        "关注 " +
+                          _vm._s(_vm.follows.length) +
+                          " 粉丝 " +
+                          _vm._s(_vm.fans.length)
+                      )
+                    ])
+                  ])
+                : _vm._e()
+            ])
           : _vm._e()
       ]),
       _c(
         "view",
-        { staticClass: "info-box" },
         [
+          _c("uni-list-item", {
+            attrs: {
+              title: "简阅钻: 7.310",
+              thumb:
+                "http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E6%98%9F%E6%98%9F.png",
+              mpcomid: "63c327b5-0"
+            }
+          })
+        ],
+        1
+      ),
+      _c("view", { staticClass: "middle" }, [
+        _c("view", { staticClass: "item it" }, [
+          _c("image", { attrs: { src: "../../static/wenzhang.png" } }),
+          _c(
+            "text",
+            {
+              staticClass: "My",
+              attrs: { eventid: "63c327b5-1" },
+              on: { tap: _vm.article }
+            },
+            [_vm._v("我的文章")]
+          ),
           !_vm.storageData.login
-            ? _c(
-                "navigator",
-                { attrs: { url: "../signin/signin" } },
-                [_c("button", { staticClass: "login" }, [_vm._v("登录")])],
-                1
-              )
+            ? _c("text", { staticClass: "tx" }, [_vm._v("0篇文章")])
             : _vm._e(),
           _vm.storageData.login
-            ? _c("text", { staticClass: "nickname" }, [
-                _vm._v(_vm._s(_vm.storageData.nickname))
+            ? _c("text", { staticClass: "tx" }, [
+                _vm._v(_vm._s(_vm.articles.length) + "篇文章")
               ])
-            : _vm._e(),
-          _c("text", { staticClass: "kong" }),
-          _vm.storageData.login
-            ? _c(
-                "navigator",
-                {
-                  staticClass: "setting",
-                  attrs: { url: "../setting/setting" }
-                },
-                [_vm._v("个人设置")]
-              )
             : _vm._e()
+        ]),
+        _c("view", { staticClass: "item it" }, [
+          _c("image", { attrs: { src: "../../static/guanzhu.png" } }),
+          _c(
+            "text",
+            {
+              staticClass: "My",
+              attrs: { eventid: "63c327b5-2" },
+              on: { tap: _vm.follow }
+            },
+            [_vm._v("我的关注")]
+          ),
+          !_vm.storageData.login
+            ? _c("text", { staticClass: "tx" }, [_vm._v("0")])
+            : _vm._e(),
+          _vm.storageData.login
+            ? _c("text", { staticClass: "tx" }, [
+                _vm._v(_vm._s(_vm.follows.length))
+              ])
+            : _vm._e()
+        ]),
+        _c("view", { staticClass: "item it" }, [
+          _c("image", { attrs: { src: "../../static/xiaoxi.png" } }),
+          _c("text", { staticClass: "My" }, [_vm._v("我的消息")]),
+          _c("text", { staticClass: "tx" }, [_vm._v(_vm._s(_vm.messnum))])
+        ]),
+        _c("view", { staticClass: "item it" }, [
+          _c("image", { attrs: { src: "../../static/jifen.png" } }),
+          _c("text", { staticClass: "My" }, [_vm._v("我的积分")]),
+          _c("text", { staticClass: "tx" }, [_vm._v(_vm._s(_vm.scores))])
+        ])
+      ]),
+      _c(
+        "swiper",
+        {
+          staticClass: "grace-swiper",
+          staticStyle: { height: "240rpx" },
+          attrs: {
+            autoplay: "true",
+            "indicator-dots": "",
+            "indicator-color": "rgba(255, 255, 255, 1)",
+            "indicator-active-color": "#00B26A",
+            interval: "3000"
+          }
+        },
+        _vm._l(_vm.swiperItems, function(item, index) {
+          return _c(
+            "swiper-item",
+            { key: index, attrs: { mpcomid: "63c327b5-1-" + index } },
+            [
+              _c(
+                "navigator",
+                { attrs: { url: item.path, "open-type": item.openType } },
+                [
+                  _c("image", {
+                    staticClass: "MySwiper",
+                    attrs: { src: item.imgUrl, mode: "widthFix" }
+                  }),
+                  _c("view", { staticClass: "title" }, [
+                    _vm._v(_vm._s(item.title))
+                  ])
+                ]
+              )
+            ],
+            1
+          )
+        })
+      ),
+      _c(
+        "view",
+        { staticClass: "bellow" },
+        [
+          _c("uni-list-item", {
+            attrs: {
+              title: "简阅会员",
+              note: "限时赠送会员",
+              thumb:
+                "https://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/weibiaoti-.png",
+              mpcomid: "63c327b5-2"
+            }
+          }),
+          _c("uni-list-item", {
+            attrs: {
+              title: "简阅活动",
+              note: "万元奖金等着你",
+              thumb: "https://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/timg.jpg",
+              mpcomid: "63c327b5-3"
+            }
+          }),
+          _c("uni-list-item", {
+            attrs: {
+              title: "我的钱包",
+              note: "0张优惠券",
+              thumb:
+                "http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E9%92%B1%E5%8C%85.png",
+              mpcomid: "63c327b5-4"
+            }
+          }),
+          _c(
+            "navigator",
+            { staticClass: "article", attrs: { url: "../articles/articles" } },
+            [
+              _c("uni-list-item", {
+                attrs: {
+                  title: "我的专题/文集",
+                  thumb:
+                    "http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E4%B9%A6%E6%9E%B6%20%282%29.png",
+                  mpcomid: "63c327b5-5"
+                }
+              })
+            ],
+            1
+          ),
+          _c("view", { staticClass: "kong1" }),
+          _c("uni-list-item", {
+            attrs: {
+              title: "设置",
+              thumb:
+                "http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/shezhi.png",
+              eventid: "63c327b5-3",
+              mpcomid: "63c327b5-6"
+            },
+            on: { tap: _vm.setting }
+          }),
+          _c("uni-list-item", {
+            attrs: {
+              title: "帮助与反馈",
+              thumb:
+                "https://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/timg%20%281%29.jpg",
+              mpcomid: "63c327b5-7"
+            }
+          })
         ],
         1
       )
-    ]),
-    _vm.storageData.login
-      ? _c("view", { staticClass: "middle" }, [
-          _c("view", { staticClass: "item it" }, [
-            _c("image", { attrs: { src: "../../static/wenzhang.png" } }),
-            _c(
-              "text",
-              [
-                _vm._v("文章 ·"),
-                _c("text", { staticClass: "tx" }, [
-                  _vm._v(_vm._s(_vm.articlenum))
-                ]),
-                _c("br")
-              ],
-              1
-            )
-          ]),
-          _c("view", { staticClass: "item it" }, [
-            _c("image", { attrs: { src: "../../static/guanzhu.png" } }),
-            _c(
-              "text",
-              [
-                _vm._v("关注 ·"),
-                _c("text", { staticClass: "tx" }, [
-                  _vm._v(_vm._s(_vm.attennum))
-                ]),
-                _c("br")
-              ],
-              1
-            )
-          ]),
-          _c("view", { staticClass: "item it" }, [
-            _c("image", { attrs: { src: "../../static/xiaoxi.png" } }),
-            _c(
-              "text",
-              [
-                _vm._v("消息 ·"),
-                _c("text", { staticClass: "tx" }, [
-                  _vm._v(_vm._s(_vm.messnum))
-                ]),
-                _c("br")
-              ],
-              1
-            )
-          ]),
-          _c("view", { staticClass: "item it" }, [
-            _c("image", { attrs: { src: "../../static/jifen.png" } }),
-            _c(
-              "text",
-              [
-                _vm._v("积分 ·"),
-                _c("text", { staticClass: "tx" }, [_vm._v(_vm._s(_vm.scores))]),
-                _c("br")
-              ],
-              1
-            )
-          ])
-        ])
-      : _vm._e(),
-    _vm.storageData.login
-      ? _c(
-          "view",
-          { staticClass: "bellow" },
-          [
-            _c(
-              "uni-list",
-              { attrs: { mpcomid: "63c327b5-1" } },
-              _vm._l(_vm.articles, function(article, index) {
-                return _c("uni-list-item", {
-                  key: index,
-                  attrs: {
-                    title: article.title,
-                    thumb:
-                      "https://upload-images.jianshu.io/upload_images/16150151-477ce947c1d1f48c.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240",
-                    note: article.content,
-                    mpcomid: "63c327b5-0-" + index
-                  }
-                })
-              })
-            )
-          ],
-          1
-        )
-      : _vm._e()
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

@@ -1,5 +1,5 @@
 
-._input.data-v-3b7f8479 {
+input.data-v-3b7f8479 {
 	height: 50px;
 	border-bottom: 1px solid #eee;
 	margin-bottom: 5px;
@@ -13,15 +13,16 @@
 	border-bottom: 1px solid #eee;
 }
 .message.data-v-3b7f8479 {
-	background-color: rgb(26, 160, 52);
+	background-color: rgb(26, 173, 25);
 	height: 47px;
-	width: 45%;
+	width: 30%;
 	color: #FFFFFF;
 	outline: none;
+	float: left;
 }
 .content.data-v-3b7f8479 {
 	text-align: center;
-	height: 150rpx;
+	height: 50rpx;
 }
 .logo.data-v-3b7f8479 {
 	height: 200rpx;
@@ -32,7 +33,7 @@
 	font-size: 36rpx;
 	color: #8f8f94;
 }
-.code.data-v-3b7f8479{
-	margin-bottom: 10rpx;
+.code.data-v-3b7f8479 {
+	padding-top: 20rpx;
 }
 

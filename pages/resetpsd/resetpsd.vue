@@ -1,17 +1,27 @@
 <template>
 	<view class=" container">
-
-		<text class="mobilenum">请输入手机号:</text>
-		<input class="uni-input" type="number" placeholder="输入手机号" v-model="mobile" required="required" />
-		<view class="content">
-			<button class="message" @tap="getReVerifyCode">发送验证码</button>
-			<lausirCodeDialog :show="showCodeDialog" :len="6" :autoCountdown="true" :phone="mobile" v-on:change="change" v-model="verifyCode"></lausirCodeDialog>
+		<view class="welcome">
+			<image src="../../static/lihua.png"></image>
+			<text>请验证您的身份</text>
+		</view>
+		<text class="mobilenum">请输入您注册时的手机号:</text>
+		
+		<view class="input1">
+			<select class="select">
+				<option value="+86">+86</option>
+				<option value="+95">+95</option>
+			</select>
+			<input class="uni-input" type="number" placeholder="输入手机号" v-model="mobile" required="required" />
 		</view>
 		<view class="code">
-			<text>验证码为：{{verifyCode}}</text>
+			<text class="code1">验证码为：{{verifyCode}}</text>
+			<button class="message" @tap="getReVerifyCode" :disabled="show">{{title}}</button>
 		</view>
-
-		<button type="primary" @tap="checkCode">下一步</button>
+		
+		<view class="content">
+			<lausirCodeDialog :show="showCodeDialog" :len="6" :autoCountdown="true" :phone="mobile" v-on:change="change" v-model="verifyCode"></lausirCodeDialog>
+		</view>
+		<button class="loginbutt" @tap="checkCode" :disabled="follow">下一步</button>
 	</view>
 </template>
 
@@ -24,6 +34,10 @@
 		},
 		data() {
 			return {
+				timer: 60,
+				show: false,
+				follow:true,
+				title: '获取验证码',
 				showCodeDialog: false,
 				mobile: '',
 				verifyCode: ''
@@ -38,6 +52,19 @@
 			getReVerifyCode: function() {
 				this.showCodeDialog = true;
 				var _this = this;
+				let timer1 = setInterval(() => {
+							_this.show = true;
+							_this.follow = false;
+							_this.timer--;
+							_this.title = _this.timer + 's后再试';
+							if (_this.timer == 0) {
+								clearInterval(timer1);
+								_this.timer = 60;
+								_this.show = false;
+								_this.title = '发送验证码';
+								return;
+							}
+						},1000); 
 				uni.request({
 					url: this.apiServer + '/user/reverify',
 					method: 'POST',
@@ -113,30 +140,76 @@
 </script>
 
 <style scoped>
+	.welcome {
+		display: flex;
+		justify-content: center;
+		margin: 0 auto;
+		margin-bottom: 30px;
+		text-align: center;
+		color: rgb(168, 168, 168);
+		font-size: 23px;
+		margin-top: 20px;
+	}
+	
+	.welcome image {
+		width: 55px;
+		height: 35px;
+	
+	}
+	
+	.mobilenum {
+		font-weight: bold;
+		font-size: 20px;
+	}
+	.loginbutt {
+		margin: 0 auto;
+		width: 80%;
+		border-radius: 30px;
+		background-color: #EA6F5A;
+		color: white;
+	}
+	
+	.loginbutt:hover {
+		background-color:rgb(229, 140, 124);
+	}
 	input {
 		height: 50px;
+		margin: 0 auto;
+		width: 75%;
 		border-bottom: 1px solid #eee;
 		margin-bottom: 5px;
+	
 	}
-
+	
+	.input1 {
+		display: flex;
+	}
+	
+	.select {
+		width: 55px;
+		height: 50px;
+		font-weight: bold;
+	}
+	
 	.mobile-input {
 		display: flex;
 		height: 50px;
 		border-bottom: 1px solid #eee;
 	}
-
+	
 	.message {
-		background-color: rgb(26, 160, 52);
+		background-color: rgb(26, 173, 25);
 		height: 47px;
-		width: 45%;
+		width: 30%;
 		color: #FFFFFF;
 		outline: none;
+		float: left;
 	}
-
-
+	
+	
 	.content {
 		text-align: center;
-		height: 150upx;
+		height: 50upx;
 	}
 
 	.logo {
@@ -151,6 +224,18 @@
 	}
 
 	.code {
-		margin-bottom: 10upx;
+		display: flex;
+		padding-top: 20upx;
+		margin-bottom: 20px;
+	}
+	
+	.code1 {
+		font-size: 20px;
+	}
+	
+	.message {
+		position: absolute;
+		right: 10px;
+		top: 150px;
 	}
 </style>

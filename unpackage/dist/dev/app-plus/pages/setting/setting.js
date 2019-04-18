@@ -1,13 +1,2 @@
-
-      !(function(){
-        var uniAppViewReadyCallback = function(){
-          setCssToHead([".",[1],"out.",[1],"data-v-76143aca{ margin-top: 20px; }\n",],undefined,{path:"./pages/setting/setting.wxss"})();
+setCssToHead([".",[1],"out.",[1],"data-v-76143aca { margin-top: 20px; width: 50%; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; border: 1px solid rgb(222, 84, 60); color: rgb(222, 84, 60); background-color: rgb(255, 255, 255); }\n.",[1],"message-1.",[1],"data-v-76143aca { font-size: 18px; color: #DE533A; }\n",],undefined,{path:"./pages/setting/setting.wxss"})();
 document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/setting/setting.wxml') } }));
-        }
-        if(window.__uniAppViewReady__){
-          uniAppViewReadyCallback()
-        }else{
-          document.addEventListener('uniAppViewReady',uniAppViewReadyCallback)
-        }
-      })();
-      

@@ -1,4 +1,8 @@
 
+.message-1.data-v-3401024e {
+	font-size: 18px;
+	color: #DE533A;
+}
 .container.data-v-3401024e {
 	display: -webkit-box;
 	display: -webkit-flex;
@@ -9,12 +13,15 @@
 	-webkit-flex-direction: column;
 	    -ms-flex-direction: column;
 	        flex-direction: column;
+	font-size: 18px;
 }
 .nickname-box.data-v-3401024e {
 	width: 100%;
-	height: 100px;
+	height: 90px;
 	background-color: #fff;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid rgb(227, 227, 230);
+	margin-bottom: 13px;
+	padding-left: 14px;
 }
 .avatar-box.data-v-3401024e {
 	display: -webkit-box;
@@ -24,14 +31,37 @@
 	width: 100%;
 	height: 70px;
 	background-color: #fff;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid rgb(227, 227, 230);
+	padding-left: 14px;
 }
 .password-box.data-v-3401024e {
 	width: 100%;
-	height: 70px;
+	/* height: 123px; */
 	background-color: #fff;
+	margin-bottom: 10px;
 }
 .kong.data-v-3401024e {
 	width: 40px;
+}
+.update.data-v-3401024e{
+	width: 50%;
+	height: 58px;
+	border-radius: 10px;
+	background-color: rgb(234, 111, 90);
+	color: rgb(255,255,255);
+	border: none;
+	outline: none;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 }
 

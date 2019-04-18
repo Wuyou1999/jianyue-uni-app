@@ -1,13 +1,2 @@
-
-      !(function(){
-        var uniAppViewReadyCallback = function(){
-          setCssToHead([".",[1],"_input.",[1],"data-v-3b7f8479 { height: 50px; border-bottom: 1px solid #eee; margin-bottom: 5px; }\n.",[1],"mobile-input.",[1],"data-v-3b7f8479 { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; height: 50px; border-bottom: 1px solid #eee; }\n.",[1],"message.",[1],"data-v-3b7f8479 { background-color: rgb(26, 160, 52); height: 47px; color: #FFFFFF; outline: none; }\n",],undefined,{path:"./pages/signup/signup.wxss"})();
+setCssToHead([".",[1],"welcome.",[1],"data-v-3b7f8479 { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-box-pack: center; -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center; margin: 0 auto; margin-bottom: 30px; text-align: center; color: rgb(168, 168, 168); font-size: 23px; margin-top: 20px; }\n.",[1],"welcome wx-image.",[1],"data-v-3b7f8479 { width: 55px; height: 35px; }\n.",[1],"mobilenum.",[1],"data-v-3b7f8479 { font-weight: bold; font-size: 20px; }\nwx-input.",[1],"data-v-3b7f8479 { height: 50px; margin: 0 auto; width: 75%; border-bottom: 1px solid #eee; margin-bottom: 5px; }\n.",[1],"input1.",[1],"data-v-3b7f8479 { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; }\n.",[1],"select.",[1],"data-v-3b7f8479 { width: 55px; height: 50px; font-weight: bold; }\n.",[1],"mobile-input.",[1],"data-v-3b7f8479 { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; height: 50px; border-bottom: 1px solid #eee; }\n.",[1],"message.",[1],"data-v-3b7f8479 { background-color: rgb(26, 173, 25); height: 47px; width: 30%; color: #FFFFFF; outline: none; float: left; }\n.",[1],"content.",[1],"data-v-3b7f8479 { text-align: center; height: ",[0,50],"; }\n.",[1],"logo.",[1],"data-v-3b7f8479 { height: ",[0,200],"; width: ",[0,200],"; margin-top: ",[0,200],"; }\n.",[1],"title.",[1],"data-v-3b7f8479 { font-size: ",[0,36],"; color: #8f8f94; }\n.",[1],"code.",[1],"data-v-3b7f8479 { display: -webkit-box; display: -webkit-flex; display: -ms-flexbox; display: flex; padding-top: ",[0,20],"; margin-bottom: 20px; }\n.",[1],"code1.",[1],"data-v-3b7f8479 { font-size: 20px; }\n.",[1],"message.",[1],"data-v-3b7f8479 { position: absolute; right: 10px; top: 150px; }\n.",[1],"loginbutt.",[1],"data-v-3b7f8479 { margin: 0 auto; width: 80%; border-radius: 30px; background-color: #EA6F5A; color: white; }\n.",[1],"loginbutt.",[1],"data-v-3b7f8479:hover { background-color:rgb(229, 140, 124); }\n",],undefined,{path:"./pages/signup/signup.wxss"})();
 document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/signup/signup.wxml') } }));
-        }
-        if(window.__uniAppViewReady__){
-          uniAppViewReadyCallback()
-        }else{
-          document.addEventListener('uniAppViewReady',uniAppViewReadyCallback)
-        }
-      })();
-      

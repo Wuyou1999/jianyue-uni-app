@@ -3,20 +3,25 @@
     "pages/index/index",
     "pages/message/message",
     "pages/my/my",
+    "pages/my/follow",
     "pages/signin/signin",
     "pages/write/write",
     "pages/setting/setting",
     "pages/userinfo/userinfo",
+    "pages/userinfo/newpsd",
     "pages/signup/signup",
     "pages/password/password",
     "pages/resetpsd/resetpsd",
-    "pages/resetpsd/resetpassword"
+    "pages/resetpsd/resetpassword",
+    "pages/articles/articles",
+    "pages/article_detail/article_detail"
   ],
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "black",
-    "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#F8F8F8",
+    "navigationStyle": "default"
   },
   "usingComponents": {},
   "tabBar": {

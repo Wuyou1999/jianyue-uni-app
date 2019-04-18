@@ -16,6 +16,7 @@
 
 
 
+
 {
   data: function data() {
     return {
@@ -26,6 +27,7 @@
 
   },
   onLoad: function onLoad(option) {
+    title: '设置密码';
     //option为object类型，会序列化上个页面传递的参数
     console.log(option.mobile);
     this.mobile = option.mobile;
@@ -120,6 +122,15 @@ var render = function() {
             }
             _vm.password = $event.target.value
           }
+        }
+      }),
+      _c("input", {
+        staticClass: "uni-input",
+        attrs: {
+          password: "",
+          type: "text",
+          placeholder: "确认密码",
+          required: "required"
         }
       }),
       _c(

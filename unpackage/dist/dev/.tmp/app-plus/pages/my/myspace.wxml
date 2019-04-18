@@ -1,0 +1,2 @@
+<import src="./myspace.vue.wxml" />
+    <template is="46835271" data="{{ ...$root['0'], $root }}"/>

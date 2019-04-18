@@ -1,386 +1,316 @@
 <template>
 	<view>
-		<view class="mask" v-show="showMask" @click="hideInputPopup"></view>
-		<view class="popup popup-insert-text" v-show="showInsertTextPopup">
+		<view>
 			<view class="toolbar">
-				<!-- #ifdef H5 -->
-				<view class="iconfont">
-					<colorPicker v-model="textareaDataColor" />
-				</view>
-				<!-- #endif -->
 				<view class="iconfont icon-bold" @click="toolBarClick('bold')"></view>
 				<view class="iconfont icon-italic" @click="toolBarClick('italic')"></view>
-				<view class="iconfont icon-configure" @click="toolBarClick('fontsize')"></view>
+				<view class="iconfont icon-xiahuaxian1" @click="toolBarClick('header')"></view>
 				<view class="iconfont icon-underline" @click="toolBarClick('underline')"></view>
 				<view class="iconfont icon-strike" @click="toolBarClick('strike')"></view>
 				<view class="iconfont icon-alignleft" @click="toolBarClick('alignleft')"></view>
 				<view class="iconfont icon-aligncenter" @click="toolBarClick('aligncenter')"></view>
 				<view class="iconfont icon-alignright" @click="toolBarClick('alignright')"></view>
+				<view class="iconfont icon-link" @click="toolBarClick('link')"></view>
+				<view class="iconfont icon-image" @tap="chooseImg"></view>
+				<view class="iconfont icon-qingkong" @click="toolBarClick('clear')"></view>
+				<view class="iconfont editor_submit" @click="toolBarClick('submit')">保存</view>
+				<view class="iconfont editor_submit" @tap="changelook" v-if="followed">预览</view>
+				<view class="iconfont editor_submit" @tap="changelook1" v-if="!followed">取消</view>
 			</view>
-			<view class="input-content">
-				<view :style="textareaDataStyle">{{textareaData}}</view>
-				<textarea auto-height maxlength="-1" v-model="textareaData"></textarea>
-			</view>
-			<view style="position: fixed;bottom: 0;width: 100%;">
-				<view style="display: flex;box-shadow: 0 0 10px rgba(0,0,0,.1);">
-					<view style="font-size: 14px;line-height: 40px;width: 50%;text-align: center;" @click="textareaDataSave('input')">提交</view>
-					<view style="font-size: 14px;line-height: 40px;width: 50%;text-align: center;" @click="textareaDataCancel">取消</view>
+			<!-- 文章标题输入框，和title变量绑定 -->
+			<input type="text" class="input_title" v-model="title" placeholder="请输入标题" v-show="look"/>
+			<view class="my_textarea" contentEditable="true" v-model="myTextarea" v-show="look">
+				<textarea placeholder="输入内容" v-model="content" class="content" maxlength="1000" v-show="look" />
 				</view>
-			</view>
+			<view class="grace-text" v-show="!look">
+				<rich-text :nodes="title" bindtap="tap"></rich-text>
+					<rich-text :nodes="content" bindtap="tap"></rich-text>
+				</view>
+				<button class="submit" @tap="postArticle">发布文章</button>
+			<qfAlert @closeAlert='closeAlert()' contentType='input' :isOpen='isOpen' ref='qfAlert_ipt' @submitAlert='submitLink'></qfAlert>
+			<qfAlert @closeAlert='closeImageAlert()' contentType='image' :isOpen='isOpen4' ref='qfAlert' @submitAlert='submitImageLink'></qfAlert>
+			<qfAlert contentType='text' content='请先选中要添加链接的文本!' :isOpen='isOpen2' @submitAlert='closeTip()'></qfAlert>
+			<qfAlert @closeAlert='closeClean()' contentType='text' content='确定清空吗？' :isOpen='isOpen3' @submitAlert='isClean()'></qfAlert>
 		</view>
-		<view class="popup popup-bottom" v-show="showPopup">
-			<view style="display: flex;flex-wrap:wrap;">
-				<view class="popup-bottom-button" @click="showInsertText">
-					插文字
-				</view>
-				<view class="popup-bottom-button" @click="showEditText">
-					改文字
-				</view>
-				<view class="popup-bottom-button" @click="insertRichItem('image')">
-					插图片
-				</view>
-				<view class="popup-bottom-button" @click="insertRichItem('video')">
-					插视频
-				</view>
-				<view class="popup-bottom-button" @click="deleteRichItem">
-					删除
-				</view>
-			</view>
-		</view>
-		<view class="content">
-			<view class="placeholder-tip" @click="showInputPopup(-1)" v-if="richList.length==0">请输入内容</view>
-			<view ref="richtext" v-for="(item,index) in richList" :key="index" :style="index==richListIndex?'background:#cce0f2;':''" @click="showInputPopup(index,item)">
-				<view v-if="item.tagType=='p'" :style="item.style">{{item.value}}</view>
-				<image v-if="item.tagType=='image'" :src="item.value"></image>
-				<video v-if="item.tagType=='video'" :src="item.value" controls></video>
-			</view>
-		</view>
-	</view>	
+	</view>
 </template>
 
 <script>
+	import uParse from '../../components/uParse/src/wxParse.vue'
+	import qfAlert from '../../components/qf-alert.vue'
 	export default {
-		data: () => {
+		name: "qf-editor",
+		components: {
+			uParse,
+			qfAlert
+		},
+		data: function() {
 			return {
-				showMask: false,
-				showPopup: false,
-				showInsertTextPopup: false,
-				fontSizeList: ["14px", "16px", "20px", "28px", "35px"],
-				richListIndex: 0,
-				textareaDataType: "",
-				textareaData:"",
-				textareaDataStyle: "padding:10px;font-size:14px;",
-				textareaDataColor: "",
-				tmpTag: ""
+				myTextarea: '',
+				link: '',
+				imageLink: '',
+				isOpen: false,
+				isOpen2: false,
+				isOpen3: false,
+				isOpen4: false,
+				endOffset: 0,
+				startOffset: 0,
+				endContainer: '',
+				startContainer: '',
+				title: '',
+				content: '',
+				userId: uni.getStorageSync('login_key').userId,
+				imgs: [],
+				look:true,
+				followed: true
 			}
 		},
 		props: {
-			richList: {
-				type: Array,
-				default: () => {
-					return []
-				}
-			}
+
 		},
-		watch: {
-			richList() {
-				this.$emit('update:richList', this.richList)
-			},
-			textareaDataColor(newValue, oldValue) {
-				this.textareaDataStyle = this.textareaDataStyle.replace(/^color:.*;$/, "")
-				this.textareaDataStyle += "color:" + newValue + ";";
-			}
+		onLoad: function(option) {
+				uni.setNavigationBarTitle({
+				title: '写文章'
+			});
+			
 		},
 		methods: {
-			insertRichItem(type) {
-				if (type == "image") {
-					uni.chooseImage({
-						count: 1, //默认9
-						sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-						sourceType: ['album', 'camera'], //从相册选择
-						success: res => {
-							uni.showLoading({
-								mask: true,
-							})
-							uni.uploadFile({
-								url: 'http://120.78.87.84:8080/conduit/file/uploadFile', //仅为示例，非真实的接口地址
-								filePath: res.tempFilePaths[0],
-								name: 'image',
-								success: (uploadFileRes) => {
-									if (this.richListIndex == -1) {
-										this.richList.push({
-											"tagType": "image",
-											"value": uploadFileRes.data,
-											"style": ""
-										});
-									} else {
-										this.richList.splice(this.richListIndex + 1, 0, {
-											"tagType": "image",
-											"value": uploadFileRes.data,
-											"style": ""
-										});
-									}
-								},
-								complete: () => {
-									uni.hideLoading()
-									this.hideInputPopup()
-								}
-							});
-						}
-					});
-				} else if (type == "video") {
-					uni.chooseVideo({
-						count: 1,
-						sourceType: ['camera', 'album'],
-						success: res => {
-							uni.showLoading({
-								mask: true,
-							})
-							uni.uploadFile({
-								url: 'http://120.78.87.84:8080/conduit/file/uploadFile', //仅为示例，非真实的接口地址
-								filePath: res.tempFilePath,
-								name: 'video',
-								success: (uploadFileRes) => {
-									console.log(JSON.stringify(uploadFileRes))
-									if (this.richListIndex == -1) {
-										this.richList.push({
-											"tagType": "video",
-											"value": uploadFileRes.data,
-											"style": ""
-										});
-									} else {
-										this.richList.splice(this.richListIndex + 1, 0, {
-											"tagType": "video",
-											"value": uploadFileRes.data,
-											"style": ""
-										});
-									}
-								},
-								fail: function(error) {
-									console.log(JSON.stringify(error))
-								},
-								complete: () => {
-									uni.hideLoading()
-									this.hideInputPopup()
-								}
-							});
-						},
-					});
-				}
-			},
-			deleteRichItem(index) {
-				if (index != -1) {
-					this.richList.splice(index, 1);
-					this.hideInputPopup();
-				}
-			},
-			textareaDataCancel() {
-				this.textareaData = "";
-				this.textareaDataColor = "";
-				this.textareaDataStyle = "padding:10px;font-size:14px";
-				this.showInsertTextPopup = false;
-			},
-			textareaDataSave() { //保存文字输入
-				if (this.textareaDataType == "input") //插入文字
-				{
-					if (this.richListIndex == -1) {
-						this.richList.push({
-							"tagType": "p",
-							"value": this.textareaData,
-							"style": this.textareaDataStyle
-						});
-					} else {
-						this.richList.splice(this.richListIndex + 1, 0, {
-							"tagType": "p",
-							"value": this.textareaData,
-							"style": this.textareaDataStyle
+			/* 选择图片上传方法 */
+			chooseImg: function() {
+				var _this = this;
+				uni.chooseImage({
+					count: 1,
+					sizeType: ['original', 'compressed'],
+					sourceType: ['album'],
+					success: function(res) {
+						console.log(JSON.stringify(res.tempFilePaths));
+						uni.uploadFile({
+							url: _this.apiServer + '/avatar/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							success: uploadFileRes => {
+								//图片上传成功，回显图片地址
+								console.log(uploadFileRes.data);
+								//将图片地址加入imgs数组
+								_this.imgs.push(uploadFileRes.data);
+								//将图片地址拼接HTML标签，加入文章内容
+								_this.content += '<img src="' + uploadFileRes.data + '" width = "100%"/>';
+							}
 						});
 					}
-				} else if (this.textareaDataType == "edit") {
-					this.richList[this.richListIndex] = {
-						"tagType": "p",
-						"value": this.textareaData,
-						"style": this.textareaDataStyle
-					};
-				}
-				this.textareaData = "";
-				this.textareaDataColor = "";
-				this.textareaDataStyle = "padding:10px;font-size:14px";
-				this.showInsertTextPopup = false;
+				});
 			},
-			toolBarClick(type) { //文字编辑工具栏点击
-				switch (type) {
-					case "bold":
-						if (this.textareaDataStyle.indexOf("font-weight:bold;") != -1) {
-							this.textareaDataStyle = this.textareaDataStyle.replace(/font-weight:bold;/, "");
-						} else {
-							this.textareaDataStyle += "font-weight:bold;";
+           changelook:function(){
+	            var _this = this;
+				_this.look=false;
+				_this.followed=false;
+             },
+			  changelook1:function(){
+			      var _this = this;
+			 	  _this.look=true;
+			 	  _this.followed=true;
+			   },
+			/* 发布文章方法 */
+			postArticle: function() {
+				var _this = this;
+				uni.showLoading({
+					title:'发表中'
+				})
+				uni.request({
+					url: this.apiServer + '/article/add',
+					method: 'POST',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: {
+						uId: this.userId,
+						title: this.title,
+						content: '<div>' + this.content + '</div>'
+					},
+					success: res => {
+						if (res.data.code === 0 ) {
+							//获得发布文章成功返回的文章id
+							var aId = res.data.data;
+							console.log(aId);
+							//将文章id和文章对应的图片地址数组传到后台，存入数据库
+							uni.request({
+								url: this.apiServer + '/img/add',
+								method: 'POST',
+								header: {
+									'content-type': 'application/x-www-form-urlencoded'
+								},
+								data: {
+									aId: aId,
+									imgs: JSON.stringify(_this.imgs) //序列化imgs数组
+								},
+								success: res => {
+									if (res.data.code === 0) {
+										console.log('文章图片地址已写入数据库');
+									}
+								}
+							});
+							uni.hideToast();
+							uni.showToast({
+								title: '发布成功',
+								duration:5000
+							});
+							uni.switchTab({
+								url: '../index/index'
+							});
 						}
-						break;
-					case "italic":
-						if (this.textareaDataStyle.indexOf("font-style:italic;") != -1) {
-							this.textareaDataStyle = this.textareaDataStyle.replace(/font-style:italic;/, "");
-						} else {
-							this.textareaDataStyle += "font-style:italic;";
-						}
-						break;
-					case "fontsize":
-						uni.showActionSheet({
-							itemList: this.fontSizeList,
-							success: (res) => {
-								let fontsize = this.fontSizeList[res.tapIndex];
-								this.textareaDataStyle = this.textareaDataStyle.replace(/^font-size:.*px;$/, "");
-								this.textareaDataStyle += "font-size:" + fontsize + ";";
+					}
+				});
+			},
+			toolBarClick(type) {
+				if (type == 'bold') {
+					var bold = document.execCommand("bold", false, null)
+				} else if (type == "italic") {
+					document.execCommand("italic", false, null)
+				} else if (type == "header") {
+					uni.showActionSheet({
+						itemList: ["标题1", "标题2", "标题3", "标题4", "标题5", "标题6"],
+						success: res => {
+							switch (res.tapIndex) {
+								case 0:
+									document.execCommand("fontsize", false, 1);
+									return;
+								case 1:
+									document.execCommand("fontsize", false, 2);
+									return;
+								case 2:
+									document.execCommand("fontsize", false, 3);
+									return;
+								case 3:
+									document.execCommand("fontsize", false, 4);
+									return;
+								case 4:
+									document.execCommand("fontsize", false, 5);
+									return;
+								case 5:
+									document.execCommand("fontsize", false, 6);
+									return;
 							}
-						})
-						break;
-					case "alignleft":
-						this.textareaDataStyle = this.textareaDataStyle.replace(/^text-align:.*;$/, "");
-						this.textareaDataStyle += "text-align:left;";
-						break;
-					case "aligncenter":
-						this.textareaDataStyle = this.textareaDataStyle.replace(/^text-align:.*;$/, "");
-						this.textareaDataStyle += "text-align:center;";
-						break;
-					case "alignright":
-						this.textareaDataStyle = this.textareaDataStyle.replace(/^text-align:.*;$/, "");
-						this.textareaDataStyle += "text-align:right;";
-						break;
-					case "underline":
-						if (this.textareaDataStyle.indexOf("text-decoration: underline;") != -1) {
-							this.textareaDataStyle = this.textareaDataStyle.replace(/text-decoration: underline;/, "");
-						} else {
-							this.textareaDataStyle = this.textareaDataStyle.replace(/^text-decoration:.*;$/, "");
-							this.textareaDataStyle += "text-decoration: underline;";
 						}
-						break;
-					case "strike":
-						if (this.textareaDataStyle.indexOf("text-decoration: line-through;") != -1) {
-							this.textareaDataStyle = this.textareaDataStyle.replace(/text-decoration: line-through;/, "");
-						} else {
-							this.textareaDataStyle = this.textareaDataStyle.replace(/^text-decoration:.*;$/, "");
-							this.textareaDataStyle += "text-decoration: line-through;";
+					})
+				} else if (type == "underline") {
+					alert("ok");
+					document.execCommand("underline", false, null);
+				} else if (type == "strike") {
+					document.execCommand("strikeThrough", false, null)
+				} else if (type == "alignleft") {
+					document.execCommand("justifyLeft", false, null)
+				} else if (type == "aligncenter") {
+					document.execCommand("justifyCenter", false, null)
+				} else if (type == "alignright") {
+					document.execCommand("justifyRight", false, null)
+				} else if (type == "link") {
+					let selection = document.getSelection();
+					console.log(selection.getRangeAt(0));
+					if (selection.type == "Range") {
+						var range = selection.getRangeAt(0);
+						this.endOffset = range.endOffset;
+						this.startOffset = range.startOffset;
+						this.endContainer = range.endContainer;
+						this.startContainer = range.startContainer;
+						this.isOpen = 'true';
+					} else {
+						this.isOpen2 = 'true';
+					}
+				} else if (type == "imgage") {
+					//document.execCommand("insertimage", false, "http://dinxin.suchenqiang.cn/public/upload/image/20190402/59310adb40594ae1fbdb5dd1fd009a15.jpg")
+					let selection = document.getSelection();
+					console.log(selection)
+					if (selection.type != "None") {
+						this.isOpen4 = 'true';
+					}
+				} else if (type == "clear") {
+					 uni.showModal({
+						title: "提示",
+						content: "确定清空?",
+						cancelText:'点错了',
+						cancelColor:'#EA6F5A',
+						success: res => {
+							if (res.confirm) {
+								this.content = "";
+								this.title="";
+							}
 						}
-						break;
+					}) 
+				} else if (type == "submit") {
+					if (this.content != '') {
+						/* alert(this.myTextarea.target.innerHTML); */
+						/* console.log(this.myTextarea.target.innerHTML); */
+						 uni.showToast({
+							 title:'保存成功！'
+						 }) ;
+					}else{
+						 uni.showModal({
+							title: "提示",
+							content: "文章内容为空！",
+					})  
+				 }
 				}
 			},
-			showInsertText() { //显示插入文字编辑框
-				this.textareaDataType = "input";
-				this.hideInputPopup()
-				this.showInsertTextPopup = true;
+			closeAlert() {
+				this.isOpen = false;
 			},
-			showEditText() {
-				if (this.richList.length == 0) {
-					this.showInsertText()
-					return;
+			closeImageAlert() {
+				this.isOpen4 = false;
+				this.$refs.qfAlert.imageLink = '';
+			},
+			closeTip() {
+				this.isOpen2 = false;
+			},
+			closeClean() {
+				this.isOpen3 = false;
+			},
+			submitLink(data) {
+				this.link = this.$refs.qfAlert_ipt.link;
+				this.isOpen = false;
+				let selection = window.getSelection();
+				let range = document.createRange();
+				selection.removeAllRanges();
+				range.setStart(this.startContainer, this.startOffset);
+				range.setEnd(this.endContainer, this.endOffset);
+				selection.addRange(range);
+				document.execCommand("createlink", false, this.link);
+			},
+			submitImageLink(data) {
+				this.isOpen4 = false;
+				this.imageLink = this.$refs.qfAlert.imageLink;
+				document.execCommand('insertHTML', false, "<image style='width:80%' src='" + this.imageLink + "'></image>");
+				this.$refs.qfAlert.imageLink = '';
+			},
+			isClean() {
+				this.closeClean();
+				if (this.myTextarea != '') {
+					this.myTextarea.target.innerHTML = "";
 				}
-				this.textareaDataType = "edit";
-				this.textareaData = this.tmpTag.value;
-				this.textareaDataStyle = this.tmpTag.style;
-				this.hideInputPopup()
-				this.showInsertTextPopup = true;
-			},
-			hideInputPopup() {
-				this.showMask = false;
-				this.showPopup = false;
-			},
-			showInputPopup(index, tmpTag) {
-				this.tmpTag = tmpTag;
-				this.richListIndex = index;
-				this.showMask = true;
-				this.showPopup = true;
 			}
 		}
 	}
 </script>
 
 <style>
-	@import '../../static/qiyue-richtext/markdown.css';
-
-	.content {
-		padding: 20px;
-	}
-
-	.placeholder-tip {
-		width: 100%;
-		font-size: 30upx;
-		color: #c7c7cd;
-	}
-
-	.mask {
-		position: fixed;
-		z-index: 998;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		background-color: rgba(0, 0, 0, .3);
-	}
-
-	.popup {
-		position: fixed;
-		z-index: 999;
-		background-color: #ffffff;
-		-webkit-box-shadow: 0 0 30upx rgba(0, 0, 0, .1);
-		box-shadow: 0 0 30upx rgba(0, 0, 0, .1);
-	}
-
-	.popup-insert-text {
-		width: 100%;
-		height: 100vh;
-	}
-
-	.popup-bottom {
-		bottom: 0;
-		width: 100%;
-	}
-
-	.popup-bottom-button {
-		width: 20%;
-		font-size: 14px;
-		text-align: center;
-		line-height: 40px;
-		display: flex;
-		justify-content: center;
-	}
-
-	.popup-bottom-button:last-child {
-		color: red;
-	}
-
-
-	.input-content {
-		width: 100%;
-	}
-
-	.input-content textarea {
-		padding: 8px 12px 8px 12px;
-		font-size: 14px;
-		min-height: 250px;
-		line-height: 1.5;
-	}
-
-	.preview {
-		border-top: 1px solid #e0e0e0;
-		width: 100%;
-	}
+	@import '../../static/richtext/markdown.css';
+	@import url("../../components/uParse/src/wxParse.css");
 
 	.toolbar {
 		width: 100%;
 		border: none;
-		box-shadow: 0 0px 2px rgba(0, 0, 0, 0.157), 0 0px 2px rgba(0, 0, 0, 0.227);
+		box-shadow: 0 0upx 4upx rgba(0, 0, 0, 0.157), 0 0upx 4upx rgba(0, 0, 0, 0.227);
 	}
 
 	.toolbar .iconfont {
 		display: inline-block;
 		cursor: pointer;
-		height: 30px;
-		width: 30px;
-		margin: 6px 0 5px 0px;
-		font-size: 16px;
-		padding: 5px 6px 5px 4px;
+		height: 61.6upx;
+		width: 61.6upx;
+		margin: 13upx 0 11upx 0upx;
+		font-size: 33upx;
+		padding: 10upx 13upx 11upx 8upx;
 		color: #757575;
-		border-radius: 5px;
+		border-radius: 11upx;
 		text-align: center;
 		background: none;
 		border: none;
@@ -389,7 +319,50 @@
 		vertical-align: middle;
 	}
 
-	.input-content {
-		min-height: ;
+	.my_textarea {
+		width: 100%;
+		height: 400px;
+		box-sizing: border-box;
+		outline: none;
+		padding: 10px;
+		border-bottom:1px solid #6f6f6f;
+		
+	}
+
+	.my_textarea .img {
+		width: 100% !important;
+	}
+
+	.toolbar .editor_submit {
+		font-size: 12px;
+		line-height: 35px;
+	}
+	
+	.submit{
+		    position: absolute;
+			bottom: 15px;
+			right: 100px;
+			position: fixed;
+			width: 50%;
+			height: 58px;
+			border-radius: 10px;
+			background-color: rgb(234, 111, 90);
+			color: rgb(255,255,255);
+			border: none;
+			outline: none;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		
+	}
+	
+	.look{
+		width: 40%;
+		float: left;
+	}
+	
+	.input_title{
+		height: 50px;
+		border-bottom:2px dotted #6f6f6f;
 	}
 </style>

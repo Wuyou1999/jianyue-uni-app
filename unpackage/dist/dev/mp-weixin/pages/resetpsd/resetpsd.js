@@ -24,8 +24,6 @@
 
 
 
-
-
 var _lausirCodedialog = _interopRequireDefault(__webpack_require__(/*! ../../components/lausir-codedialog/lausir-codedialog.vue */ "E:\\VueStudy\\jianyue-uni-app\\components\\lausir-codedialog\\lausir-codedialog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 
 {
@@ -34,6 +32,10 @@ var _lausirCodedialog = _interopRequireDefault(__webpack_require__(/*! ../../com
 
   data: function data() {
     return {
+      timer: 60,
+      show: false,
+      follow: true,
+      title: '获取验证码',
       showCodeDialog: false,
       mobile: '',
       verifyCode: '' };
@@ -48,6 +50,19 @@ var _lausirCodedialog = _interopRequireDefault(__webpack_require__(/*! ../../com
     getReVerifyCode: function getReVerifyCode() {
       this.showCodeDialog = true;
       var _this = this;
+      var timer1 = setInterval(function () {
+        _this.show = true;
+        _this.follow = false;
+        _this.timer--;
+        _this.title = _this.timer + 's后再试';
+        if (_this.timer == 0) {
+          clearInterval(timer1);
+          _this.timer = 60;
+          _this.show = false;
+          _this.title = '发送验证码';
+          return;
+        }
+      }, 1000);
       uni.request({
         url: this.apiServer + '/user/reverify',
         method: 'POST',
@@ -179,18 +194,21 @@ var render = function() {
         }
       }),
       _c(
+        "button",
+        {
+          staticClass: "message",
+          attrs: { disabled: _vm.show, eventid: "5b6ea335-1" },
+          on: { tap: _vm.getReVerifyCode }
+        },
+        [_vm._v(_vm._s(_vm.title))]
+      ),
+      _c("view", { staticClass: "code" }, [
+        _c("text", [_vm._v("验证码为：" + _vm._s(_vm.verifyCode))])
+      ]),
+      _c(
         "view",
         { staticClass: "content" },
         [
-          _c(
-            "button",
-            {
-              staticClass: "message",
-              attrs: { eventid: "5b6ea335-1" },
-              on: { tap: _vm.getReVerifyCode }
-            },
-            [_vm._v("发送验证码")]
-          ),
           _c("lausirCodeDialog", {
             attrs: {
               show: _vm.showCodeDialog,
@@ -212,13 +230,14 @@ var render = function() {
         ],
         1
       ),
-      _c("view", { staticClass: "code" }, [
-        _c("text", [_vm._v("验证码为：" + _vm._s(_vm.verifyCode))])
-      ]),
       _c(
         "button",
         {
-          attrs: { type: "primary", eventid: "5b6ea335-3" },
+          attrs: {
+            type: "primary",
+            disabled: _vm.follow,
+            eventid: "5b6ea335-3"
+          },
           on: { tap: _vm.checkCode }
         },
         [_vm._v("下一步")]

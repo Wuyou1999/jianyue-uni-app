@@ -165,9 +165,24 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _xyDialog = _interopRequireDefault(__webpack_require__(/*! @/components/xy-dialog/xy-dialog.vue */ "E:\\VueStudy\\jianyue-uni-app\\components\\xy-dialog\\xy-dialog.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
-  components: { xyDialog: _xyDialog.default },
+  components: {
+    xyDialog: _xyDialog.default },
+
   data: function data() {
     return {
       userDTO: {
@@ -185,6 +200,9 @@ var _xyDialog = _interopRequireDefault(__webpack_require__(/*! @/components/xy-d
     signIn: function signIn(userDTO) {
       var _this = this;
       // console.log(userDTO.mobile + ',' + userDTO.password);
+      uni.showLoading({
+        title: '正在登录' });
+
       uni.request({
         url: this.apiServer + '/user/sign_in',
         method: 'POST',
@@ -196,6 +214,7 @@ var _xyDialog = _interopRequireDefault(__webpack_require__(/*! @/components/xy-d
           'content-type': 'application/json' },
 
         success: function success(res) {
+
           // console.log(res.data.data);
           if (res.data.code == 0) {
             //将用户数据记录在本地存储
@@ -206,8 +225,10 @@ var _xyDialog = _interopRequireDefault(__webpack_require__(/*! @/components/xy-d
               token: res.data.data.token,
               login: true });
 
+            uni.hideLoading();
             uni.showToast({
-              title: '登录成功！' });
+              title: '登录成功！',
+              duration: 2500 });
 
             uni.switchTab({
               url: '../my/my' });
@@ -216,6 +237,7 @@ var _xyDialog = _interopRequireDefault(__webpack_require__(/*! @/components/xy-d
           }
           //登录失败，弹出各种原因
           else {
+              uni.hideLoading();
               uni.showModal({
                 title: '提示',
                 content: res.data.msg });
@@ -357,7 +379,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "view",
-    { staticClass: "uni-flex uni-column container" },
+    { staticClass: "container" },
     [
       _vm._m(0),
       _c("input", {
@@ -369,10 +391,10 @@ var render = function() {
             expression: "userDTO.mobile"
           }
         ],
-        staticClass: "uni-input",
+        staticClass: "input",
         attrs: {
           type: "number",
-          placeholder: "输入手机号",
+          placeholder: "请输入手机号",
           required: "required",
           eventid: "9968b116-0"
         },
@@ -395,11 +417,11 @@ var render = function() {
             expression: "userDTO.password"
           }
         ],
-        staticClass: "uni-input",
+        staticClass: "input",
         attrs: {
           password: "",
           type: "text",
-          placeholder: "输入密码",
+          placeholder: "请输入密码",
           required: "required",
           eventid: "9968b116-1"
         },
@@ -416,7 +438,8 @@ var render = function() {
       _c(
         "button",
         {
-          attrs: { type: "primary", eventid: "9968b116-2" },
+          staticClass: "loginbutt",
+          attrs: { eventid: "9968b116-2" },
           on: {
             tap: function($event) {
               _vm.signIn(_vm.userDTO)
@@ -429,16 +452,22 @@ var render = function() {
         "view",
         { staticClass: "rgister" },
         [
-          _c("navigator", { attrs: { url: "../signup/signup" } }, [
-            _vm._v("还没账号？点击注册")
-          ]),
+          _c(
+            "navigator",
+            { staticClass: "tip", attrs: { url: "../signup/signup" } },
+            [_vm._v("还没账号？点击注册")]
+          ),
           _c("view", { staticClass: "kong" }),
-          _c("navigator", { attrs: { url: "../resetpsd/resetpsd" } }, [
-            _vm._v("忘记密码？点击重置")
-          ])
+          _c(
+            "navigator",
+            { staticClass: "tip2", attrs: { url: "../resetpsd/resetpsd" } },
+            [_vm._v("忘记密码？点击重置")]
+          )
         ],
         1
-      )
+      ),
+      _vm._m(1),
+      _vm._m(2)
     ],
     1
   )
@@ -453,6 +482,29 @@ var staticRenderFns = [
         staticClass: "avatar",
         attrs: { src: "../../static/default.png", mode: "scaleToFill" }
       })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("view", { staticClass: "disanf1" }, [
+      _c("text", [_vm._v("—— 社交账号直接登录 ——")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("view", { staticClass: "disanf" }, [
+      _c("image", { attrs: { src: "../../static/weixin.png" } }),
+      _c("text", { staticClass: "sj" }, [_vm._v("微信")]),
+      _c("view", { staticClass: "kong1" }),
+      _c("image", { attrs: { src: "../../static/qq.png" } }),
+      _c("text", { staticClass: "sj" }, [_vm._v("QQ")]),
+      _c("view", { staticClass: "kong1" }),
+      _c("image", { attrs: { src: "../../static/weibo.png" } }),
+      _c("text", { staticClass: "sj" }, [_vm._v("微博")])
     ])
   }
 ]

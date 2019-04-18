@@ -8,7 +8,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
 
@@ -35,7 +35,21 @@
 
 
 
+
+
+
+
+
+
+
+
+var _uniList = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-list/uni-list.vue */ "E:\\VueStudy\\jianyue-uni-app\\node_modules\\@dcloudio\\uni-ui\\lib\\uni-list\\uni-list.vue"));
+var _uniListItem = _interopRequireDefault(__webpack_require__(/*! @dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue */ "E:\\VueStudy\\jianyue-uni-app\\node_modules\\@dcloudio\\uni-ui\\lib\\uni-list-item\\uni-list-item.vue"));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}var _default =
 {
+  components: {
+    uniList: _uniList.default,
+    uniListItem: _uniListItem.default },
+
   data: function data() {
     return {
       nickname: uni.getStorageSync('login_key').nickname,
@@ -168,7 +182,7 @@
 
     },
 
-    updateUser: function updateUser(renickname, repassword) {
+    updateUser: function updateUser(renickname) {var _this2 = this;
       var _this = this;
       uni.request({
         url: this.apiServer + '/user/nickname?id=' + uni.getStorageSync('login_key').userId,
@@ -180,7 +194,7 @@
         success: function success(res) {
           console.log('save');
           uni.request({
-            url: 'http://localhost:8080/api/user/' +
+            url: _this2.apiServer + '/user/' +
             uni.getStorageSync('login_key').userId,
             method: 'GET',
             data: {
@@ -202,50 +216,13 @@
 
               }
             } });
-
-
-        } });
-
-      uni.request({
-        url: this.apiServer + '/user/password?id=' + uni.getStorageSync('login_key').userId,
-        method: 'put',
-        data: repassword,
-        header: {
-          'content-type': 'application/json' },
-
-        success: function success(res) {
-          console.log('save');
-          uni.request({
-            url: 'http://localhost:8080/api/user/' +
-            uni.getStorageSync('login_key').userId,
-            method: 'GET',
-            data: {
-              userId: _this.userId },
-
-            header: {
-              'content-type': 'application/json' },
-
-            success: function success(res) {
-              console.log('save2');
-              if (res.data.code == 0) {
-                //将用户数据记录在本地存储
-                uni.setStorageSync('login_key', {
-                  userId: res.data.data.id,
-                  nickname: res.data.data.nickname,
-                  avatar: res.data.data.avatar,
-                  token: res.data.data.token,
-                  login: true });
-
-              }
-            } });
-
 
           uni.showToast({
-            title: '修改成功！' });
-
-          /* uni.navigateBack(); */
+            title: '修改成功！',
+            duration: 2500 });
 
         } });
+
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ "./node_modules/@dcloudio/uni-mp-weixin/dist/index.js")["default"]))
@@ -279,107 +256,154 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("view", [
-    _c("view", { staticClass: "container" }, [
-      _c(
-        "view",
-        { staticClass: "nickname-box" },
-        [
-          _c("text", { staticClass: "nickname" }, [
-            _vm._v("当前昵称:" + _vm._s(_vm.nickname))
-          ]),
-          _c("br"),
-          _c("text", { staticClass: "nickname" }, [_vm._v("修改昵称:")]),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.renickname,
-                expression: "renickname"
-              }
-            ],
-            staticClass: "nickname-input",
-            attrs: {
-              type: "text",
-              placeholder: "输入新的昵称",
-              required: "required",
-              eventid: "518dd1d6-0"
-            },
-            domProps: { value: _vm.renickname },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+    _c(
+      "view",
+      { staticClass: "container" },
+      [
+        _vm._m(0),
+        _c(
+          "view",
+          { staticClass: "nickname-box" },
+          [
+            _c("text", { staticClass: "nickname" }, [
+              _vm._v("当前昵称:" + _vm._s(_vm.nickname))
+            ]),
+            _c("br"),
+            _c("text", { staticClass: "nickname" }, [_vm._v("更改昵称:")]),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.renickname,
+                  expression: "renickname"
                 }
-                _vm.renickname = $event.target.value
-              }
-            }
-          })
-        ],
-        1
-      ),
-      _c("view", { staticClass: "avatar-box" }, [
-        _c("text", {}, [_vm._v("更换头像")]),
-        _c("view", { staticClass: "kong" }),
-        _c("image", {
-          staticClass: "avatar",
-          attrs: { src: _vm.avatar, eventid: "518dd1d6-1" },
-          on: { tap: _vm.showActionSheet }
-        })
-      ]),
-      _c("view", { staticClass: "password-box" }, [
-        _c("text", [_vm._v("修改密码:")]),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.repassword,
-              expression: "repassword"
-            }
-          ],
-          staticClass: "uni-input",
-          attrs: {
-            password: "",
-            type: "text",
-            placeholder: "输入新的密码",
-            required: "required",
-            eventid: "518dd1d6-2"
-          },
-          domProps: { value: _vm.repassword },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.repassword = $event.target.value
-            }
-          }
-        })
-      ]),
-      _c(
-        "view",
-        { staticClass: "list-item" },
-        [
-          _c(
-            "button",
-            {
-              attrs: { type: "primary", eventid: "518dd1d6-3" },
+              ],
+              staticClass: "nickname-input",
+              attrs: {
+                type: "text",
+                placeholder: "输入新的昵称",
+                required: "required",
+                eventid: "518dd1d6-0"
+              },
+              domProps: { value: _vm.renickname },
               on: {
-                tap: function($event) {
-                  _vm.updateUser(_vm.renickname, _vm.repassword)
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.renickname = $event.target.value
                 }
               }
-            },
-            [_vm._v("确认修改")]
-          )
-        ],
-        1
-      )
-    ])
+            })
+          ],
+          1
+        ),
+        _c("view", { staticClass: "avatar-box" }, [
+          _c("text", {}, [_vm._v("更换头像")]),
+          _c("view", { staticClass: "kong" }),
+          _c("image", {
+            staticClass: "avatar",
+            attrs: { src: _vm.avatar, eventid: "518dd1d6-1" },
+            on: { tap: _vm.showActionSheet }
+          })
+        ]),
+        _c(
+          "view",
+          [
+            _c("uni-list-item", {
+              attrs: { title: "更改性别", note: "男", mpcomid: "518dd1d6-0" }
+            }),
+            _c("uni-list-item", {
+              attrs: {
+                title: "更改生日",
+                note: "1999-02-15",
+                mpcomid: "518dd1d6-1"
+              }
+            }),
+            _c("uni-list-item", {
+              attrs: { title: "更改主页", mpcomid: "518dd1d6-2" }
+            }),
+            _c("uni-list-item", {
+              attrs: {
+                title: "更改个人简介",
+                note: "我本将心向明月,奈何明月照沟渠",
+                mpcomid: "518dd1d6-3"
+              }
+            })
+          ],
+          1
+        ),
+        _c(
+          "view",
+          { staticClass: "password-box" },
+          [
+            _vm._m(1),
+            _c(
+              "navigator",
+              { attrs: { url: "../userinfo/newpsd" } },
+              [
+                _c("uni-list-item", {
+                  attrs: { title: "重置密码", mpcomid: "518dd1d6-4" }
+                })
+              ],
+              1
+            ),
+            _c("uni-list-item", {
+              attrs: {
+                title: "绑定微信",
+                thumb:
+                  "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3336519328,2903738409&fm=26&gp=0.jpg",
+                mpcomid: "518dd1d6-5"
+              }
+            }),
+            _c("uni-list-item", {
+              attrs: {
+                title: "绑定微博",
+                thumb:
+                  "http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E5%BE%AE%E5%8D%9A...png",
+                mpcomid: "518dd1d6-6"
+              }
+            })
+          ],
+          1
+        ),
+        _c(
+          "button",
+          {
+            staticClass: "update",
+            attrs: { eventid: "518dd1d6-2" },
+            on: {
+              tap: function($event) {
+                _vm.updateUser(_vm.renickname)
+              }
+            }
+          },
+          [_vm._v("确认修改")]
+        )
+      ],
+      1
+    )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("view", [
+      _c("text", { staticClass: "message-1" }, [_vm._v("常规设置")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("view", [
+      _c("text", { staticClass: "message-1" }, [_vm._v("安全设置")])
+    ])
+  }
+]
 render._withStripped = true
 
 

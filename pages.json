@@ -22,6 +22,12 @@
 			}
 		},
 		{
+			"path": "pages/my/follow",
+			"style": {
+
+			}
+		},
+		{
 			"path": "pages/signin/signin",
 			"style": {}
 		},
@@ -32,37 +38,60 @@
 		{
 			"path": "pages/setting/setting",
 			"style": {}
-		}, {
+		},
+		{
 			"path": "pages/userinfo/userinfo",
+			"style": {}
+		},
+		{
+			"path": "pages/userinfo/newpsd",
 			"style": {}
 		},
 		{
 			"path": "pages/signup/signup",
 			"style": {}
-		}
-	    ,{
-            "path" : "pages/password/password",
-            "style" : {}
-        },
-		{
-		    "path" : "pages/resetpsd/resetpsd",
-		    "style" : {}
+		}, {
+			"path": "pages/password/password",
+			"style": {}
 		},
 		{
-		    "path" : "pages/resetpsd/resetpassword",
-		    "style" : {}
+			"path": "pages/resetpsd/resetpsd",
+			"style": {}
 		},
 		{
-		    "path" : "pages/articles/articles",
-		    "style" : {}
+			"path": "pages/resetpsd/resetpassword",
+			"style": {}
+		},
+		{
+			"path": "pages/articles/articles",
+			"style": {}
+		},
+		{
+			"path": "pages/article_detail/article_detail",
+			"style": {
+				"enablePullDownRefresh": true
+			}
+
+		},
+		{
+			"path": "pages/my/friend",
+			"style": {}
+		},
+		{
+			"path": "pages/my/fan",
+			"style": {}
+		},
+		{
+			"path": "pages/my/myspace",
+			"style": {}
 		}
-        
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		// "navigationBarTitleText" : "简阅",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle": "default"
 	},
 	"tabBar": {
 		"color": "#707070",

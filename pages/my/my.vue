@@ -1,73 +1,113 @@
 <template>
 	<view class="container">
-		<view class="top">
-			<view class="welcome" v-if="!storageData.login">
-				<image src="../../static/lihua.png"></image>
-				<text>欢迎使用</text>
-			</view>
-
-			<view class="avatar-box">
-				<image src="../../static/default.png" mode="scaleToFill" class="avatar" v-if="!storageData.login">
-				</image>
-				<image :src="storageData.avatar" mode="scaleToFill" class="avatar" v-if="storageData.login"></image>
-			</view>
-			<view class="info-box">
-				<navigator url="../signin/signin" v-if="!storageData.login">
-					<button class="login">登录</button></navigator>
-				<text v-if="storageData.login" class="nickname">{{ storageData.nickname }} </text>
-				<text class="kong"></text>
-				<navigator url="../setting/setting" v-if="storageData.login" class="setting">个人设置</navigator>
-				<!-- <button @tap="signOut" class="setting">个人设置</button> -->
-				</navigator>
-			</view>
+		<view class="ma">
+			<image src="../../static/saoma.png" class="sao"></image>
+			<view class="kong2"></view>
+			<button class="qiandao" @tap="showBanner" :disabled="followed" v-if="storageData.login">签到</button>
+			<image src="../../static/yueliang.png" class="yue"></image>
+			<text>日间</text>
 		</view>
-		<view class="middle" v-if="storageData.login">
-			<view class="item it">
-				<navigator url="../articles/articles" class="article">
-					<image src="../../static/wenzhang.png"></image>
+		<graceMaskView :show="show" bgcolor="#FFFFFF" v-on:close="closeBanner">
+			<view>
+				<image src="../../static/qiandao.jpg" style="width:100%; margin-top:25px; border-top-right-radius:5px; border-top-left-radius:5px;"
+				 mode="widthFix"></image>
+			</view>
+			<view style="padding:25px; padding-bottom:30px;">
+				<button type='warn' style="background:#F6644D; padding:0 20px;" @tap="closeBanner">我知道了</button>
+			</view>
+		</graceMaskView>
+		<view class="top">
+			<!-- <view class="welcome" v-if="!storageData.login">
+				<image src="../../static/lihua.png"></image>
+				<text>欢迎使用!</text>
+			</view>
+			<view class="avatar-box" v-if="!storageData.login">
+				<image src="../../static/default.png" mode="scaleToFill" class="avatar"></image>
+			</view> -->
+			<view class="avatar-box1" v-if="!storageData.login">
+				<image src="../../static/default.png" mode="scaleToFill" class="avatar"></image>
+				<view class="info-box1" v-if="!storageData.login">
+					<text class="nickname" @tap="Signin">点击登录</text>
+					<text class="fans">立即领取简阅福利</text>
+				</view>
+			</view>
 
+			<view class="avatar-box1" v-if="storageData.login">
+				<image :src="storageData.avatar" mode="scaleToFill" class="avatar" @tap="gotoSpace(storageData.userId)"></image>
+				<view class="info-box1" v-if="storageData.login">
+					<text class="nickname">{{ storageData.nickname }} </text>
+					<text class="fans">关注 {{follows.length}} 粉丝 {{fans.length}}</text>
+				</view>
+			</view>
+
+			<!-- <view class="info-box" v-if="!storageData.login">
+				<navigator url="../signin/signin">
+					<button class="login">手机号登录</button></navigator>
 				</navigator>
-				<text>文章 · <text class="tx">{{articlenum}}</text><br /></text>
+			</view>
+			<text class="login_tip" v-if="!storageData.login">切换账号 | 登录遇到问题</text> -->
+		</view>
+		<view>
+			<uni-list-item title="简阅钻: 0.0" thumb="http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E6%98%9F%E6%98%9F.png"></uni-list-item>
+		</view>
+		<view class="middle">
+			<view class="item it">
+				<image src="../../static/wenzhang.png"></image>
+				<text class="My" @tap="article">我的文章</text>
+				<text class="tx" v-if="!storageData.login">0篇文章</text>
+				<text class="tx" v-if="storageData.login">{{articles.length}}篇文章</text>
 			</view>
 			<view class="item it">
 				<image src="../../static/guanzhu.png"></image>
-				<text>关注 · <text class="tx">{{attennum}}</text><br /></text>
+				<text class="My" @tap="follow">我的关注</text>
+				<text class="tx" v-if="!storageData.login">0</text>
+				<text class="tx" v-if="storageData.login">{{follows.length}}</text>
 			</view>
 			<view class="item it">
 				<image src="../../static/xiaoxi.png"></image>
-				<text>消息 · <text class="tx">{{messnum}}</text><br /></text>
+				<text class="My">我的消息</text>
+				<text class="tx">{{messnum}}</text>
 			</view>
 			<view class="item it">
 				<image src="../../static/jifen.png"></image>
-				<text>积分 · <text class="tx">{{scores}}</text><br /></text>
+				<text class="My">我的积分</text>
+				<text class="tx" v-if="!storageData.login">{{scores}}</text>
+				<text class="tx" v-if="storageData.login"> {{follows.length*3+articles.length*5+likes.length*2+
+				fans.length*2}} </text>
 			</view>
-			<!-- <uni-grid :options="[
-    {image:'../../static/wenzhang.png',text:'文章 · 22'},
-    {image:'../../static/guanzhu.png',text:'关注 · 20'},
-    {image:'../../static/xiaoxi.png',text:'消息 · 99+'},
-    {image:'../../static/jifen.png',text:'积分 · 100'}]"
-			 column-num="4">
-			</uni-grid> -->
+
 		</view>
-		<view class="bellow" v-if="storageData.login">
-			<!-- <uni-list>
-				<uni-list-item :title="article.title" v-for="(article, index) in articles" :key="index" thumb="https://upload-images.jianshu.io/upload_images/16150151-477ce947c1d1f48c.jpeg?imageMogr2/auto-orient/strip|imageView2/1/w/360/h/240"
-				 :note="article.content"></uni-list-item>
-			</uni-list> -->
-          <uni-list-item title="简阅会员" note="限时赠送会员"></uni-list-item>
-		  <uni-list-item title="简阅活动" note="万元奖金等着你"></uni-list-item>
-		  <uni-list-item title="我的钱包" note="0张优惠券"></uni-list-item>
-		  <uni-list-item title="我的专题/文集" ></uni-list-item>
-		  <view class="kong1"></view>
-		  <navigator url="../setting/setting" >
-		  	<uni-list-item title="设置" ></uni-list-item>
-		  </navigator>
+
+		<swiper class="grace-swiper" autoplay="true" indicator-dots indicator-color="rgba(255, 255, 255, 1)"
+		 indicator-active-color="#00B26A" style="height :240upx " interval="3000">
+			<swiper-item v-for="(item, index) in swiperItems" :key="index">
+				<navigator :url='item.path' :open-type="item.openType">
+					<image :src='item.imgUrl' mode='widthFix' class="MySwiper"></image>
+					<view class="title">{{item.title}}</view>
+				</navigator>
+			</swiper-item>
+		</swiper>
+
+
+		<view class="bellow">
+			<uni-list-item title="简阅会员" note="限时赠送会员" thumb="https://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/weibiaoti-.png"></uni-list-item>
+			<uni-list-item title="简阅活动" note="万元奖金等着你" thumb="https://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/timg.jpg"></uni-list-item>
+			<uni-list-item title="我的钱包" note="0张优惠券" thumb="http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E9%92%B1%E5%8C%85.png"></uni-list-item>
+			<navigator url="../articles/articles" class="article">
+				<uni-list-item title="我的专题/文集" thumb="http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/%E4%B9%A6%E6%9E%B6%20%282%29.png"></uni-list-item>
+			</navigator>
+			<view class="kong1"></view>
+			<navigator url="../setting/setting">
+			<uni-list-item title="设置" thumb="http://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/shezhi.png"></uni-list-item>
+			</navigator>
+			<uni-list-item title="帮助与反馈" thumb="https://wuyou-soft.oss-cn-hangzhou.aliyuncs.com/timg%20%281%29.jpg"></uni-list-item>
 		</view>
 	</view>
 </template>
 
 <script>
 	var loginRes, _self;
+	import graceMaskView from "../../graceUI/components/graceMaskView.vue";
 	import uniGrid from "@dcloudio/uni-ui/lib/uni-grid/uni-grid.vue"
 	import uniList from '@dcloudio/uni-ui/lib/uni-list/uni-list.vue';
 	import uniListItem from '@dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue';
@@ -75,45 +115,61 @@
 		components: {
 			uniGrid,
 			uniList,
-			uniListItem
+			uniListItem,
+			graceMaskView
 		},
 		data() {
 			return {
+				staticUrl: this.staticUrl,
+				show: false,
+				followed: false,
 				storageData: {},
-				articlenum: '5',
-				attennum: '1w',
-				messnum: '99+',
-				scores: '10w',
-				/* articles: [{
-						id: 1,
-						title: '第一篇文章',
-						content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心'
+				articlenum: '0',
+				attennum: '0',
+				messnum: '0',
+				scores: '0',
+				swiperItems: [{
+						"imgUrl": "../../static/read1.jpg",
+						"path": "../index/index",
+						"title": "简阅",
+						"openType": "navigate"
 					},
 					{
-						id: 2,
-						title: '第二篇文章',
-						content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心'
+						"imgUrl": "../../static/read2.jpg",
+						"path": "../index/index",
+						"title": "简阅",
+						"openType": "switchTab"
 					},
 					{
-						id: 3,
-						title: '第三篇文章',
-						content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心'
+						"imgUrl": "../../static/read3.jpg",
+						"path": "../index/index",
+						"title": "简阅",
+						"openType": "switchTab"
 					},
 					{
-						id: 4,
-						title: '第四篇文章',
-						content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心'
-					},
-					{
-						id: 5,
-						title: '第五篇文章',
-						content: '浅行于红尘烟雨中，只因一个不经意的眼神，便刻骨铭心'
+						"imgUrl": "../../static/read4.jpg",
+						"path": "../index/index",
+						"title": "简阅",
+						"openType": "switchTab"
 					}
-
-				] */
+				],
+				follows: [],
+				fans: [],
+				articles: [],
+				likes: [],
+				credit: uni.getStorageSync('login_key').credit
 			};
 		},
-		onLoad: function() {},
+		onLoad: function() {
+			/* 	_self = this;
+				uni.request({
+					url: 'https://www.easy-mock.com/mock/5bb833775df5622d84ac87ca/example/swiperwithtitle#!method=get',
+					success: function(res) {
+						console.log(res);
+						_self.swiperItems = res.data.data;
+					}
+				}); */
+		},
 		onShow: function() {
 			var _this = this;
 			const loginKey = uni.getStorageSync('login_key');
@@ -123,27 +179,256 @@
 				this.storageData = {
 					login: loginKey.login,
 					nickname: loginKey.nickname,
-					avatar: loginKey.avatar
+					avatar: loginKey.avatar,
+					userId: loginKey.userId,
+					credit: loginKey.credit
 				};
 			} else {
 				this.storageData = {
 					login: false
 				};
-			}
-
+			};
+			this.getFollows();
+			this.getFans();
+			this.getArticle();
+			this.getlikes();
 		},
 		methods: {
+			// 第1个演示 开启与关闭
+			showBanner: function() {
+				if (uni.getStorageSync('login_key').login === true) {
+					this.show = true;
+					uni.showToast({
+						title: '签到成功,积分+2',
+						duration: 2500
+					});
+					this.followed = true;
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '对不起您还未登录!',
+						cancelText: '再等等',
+						cancelColor: '#EA6F5A',
+						success: function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '../signin/signin'
+								});
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							};
+						}
+					});
+				}
+			},
+			closeBanner: function() {
+				this.show = false;
+			},
+			follow: function() {
+				if (uni.getStorageSync('login_key').login === true) {
+					uni.navigateTo({
+						url: 'follow'
+					});
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '对不起您还未登录!',
+						cancelText: '再等等',
+						cancelColor: '#EA6F5A',
+						success: function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '../signin/signin'
+								});
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							};
+						}
+					});
+				}
+			},
+			article: function() {
+				if (uni.getStorageSync('login_key').login === true) {
+					uni.navigateTo({
+						url: '../articles/articles'
+					});
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '对不起您还未登录!',
+						cancelText: '再等等',
+						cancelColor: '#EA6F5A',
+						success: function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '../signin/signin'
+								});
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							};
+						}
+					});
+				}
 
+			},
+			/* setting: function() {
+				if (uni.getStorageSync('login_key').login === true) {
+					uni.navigateTo({
+						url: '../setting/setting'
+					});
+				} else {
+					uni.showModal({
+						title: '提示',
+						content: '对不起您还未登录!',
+						cancelText: '再等等',
+						cancelColor: '#EA6F5A',
+						success: function(res) {
+							if (res.confirm) {
+								uni.navigateTo({
+									url: '../signin/signin'
+								});
+							} else if (res.cancel) {
+								console.log('用户点击取消')
+							};
+						}
+					});
+				}
+
+			}, */
+			Signin: function() {
+				uni.navigateTo({
+					url: '../signin/signin'
+				});
+			},
+			getFollows: function() {
+				var _this = this;
+				uni.request({
+					url: this.apiServer + '/follow/followlist?fromUId=' + uni.getStorageSync('login_key').userId,
+					method: 'GET',
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						_this.follows = res.data.data;
+					}
+				});
+			},
+			getFans: function() {
+				var _this = this;
+				uni.request({
+					url: this.apiServer + '/follow/fanlist?toUId=' + uni.getStorageSync('login_key').userId,
+					method: 'GET',
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						_this.fans = res.data.data;
+					}
+				});
+			},
+			getArticle: function() {
+				var _this = this;
+				uni.request({
+					url: this.apiServer + '/article/article_list',
+					method: 'GET',
+					header: {
+						'content-type': 'application/x-www-form-urlencoded'
+					},
+					data: {
+						uId: uni.getStorageSync('login_key').userId
+					},
+					success: res => {
+						_this.articles = res.data.data;
+					}
+				});
+			},
+			getlikes: function() {
+				var _this = this;
+				uni.request({
+					url: this.apiServer + '/like/likelist?fromUId=' + uni.getStorageSync('login_key').userId,
+					method: 'GET',
+					header: {
+						'content-type': 'application/json'
+					},
+					success: res => {
+						_this.likes = res.data.data;
+					}
+				});
+			},
+			gotoSpace: function(userId) {
+				uni.navigateTo({
+					url: 'myspace?userId=' + userId
+				});
+			},
 		}
 	};
 </script>
 
 <style scoped>
+	/* 遮罩层 */
+	.uni-mask {
+		background: rgba(0, 0, 0, 0.5);
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		left: 0;
+		top: 0;
+		z-index: 1;
+	}
+
+	/* 弹出层形式的广告 */
+	.uni-banner {
+		width: 70%;
+		position: fixed;
+		left: 50%;
+		top: 50%;
+		background: #FFF;
+		border-radius: 10upx;
+		z-index: 99;
+		transform: translate(-50%, -50%);
+	}
+
+	.sao {
+		padding-left: 10px;
+	}
+
+	.ma {
+		display: flex;
+		height: 30px;
+	}
+
+	.qiandao {
+		height: 30px;
+		font-size: 14px;
+		position: absolute;
+		right: 90px;
+		background-color: #de533a;
+		background: linear-gradient(40deg, #ffd86f, #fc6262);
+		color: rgb(255, 255, 255);
+	}
+
+	.ma image {
+		height: 25px;
+		width: 25px;
+	}
+
+	.grace-swiper {
+		margin: 0 auto;
+		width: 95%;
+
+	}
+
+	.kong2 {
+		width: 290px;
+	}
+
 	.welcome {
 		display: flex;
 		justify-content: center;
 		margin-bottom: 50px;
 		text-align: center;
+		color: rgb(168, 168, 168);
+		font-size: 23px;
 	}
 
 	.welcome image {
@@ -155,13 +440,23 @@
 	.login {
 		margin-left: 15px;
 		margin-top: 50px;
-		width: 200px;
+		width: 280px;
 		height: 50px;
 		border-radius: 30px;
 		outline: none;
 		background-color: rgb(222, 84, 60);
 		color: #FFFFFF;
 	}
+
+	.login_tip {
+		color: rgb(73, 105, 153);
+		margin-top: 110px;
+		display: flex;
+		text-align: center;
+		justify-content: center;
+		font-size: 16px;
+	}
+
 
 	.top {
 		display: flex;
@@ -177,10 +472,35 @@
 		margin-bottom: 35px;
 	}
 
+	.avatar-box1 {
+		display: flex;
+		/* align-items: center; */
+		/* float: left; */
+		margin-bottom: 35px;
+		padding-left: 20upx;
+	}
+
 	.info-box {
 		display: flex;
 		/* align-items: center; */
 		justify-content: center;
+	}
+
+	.info-box1 {
+		display: flex;
+		flex-direction: column;
+		padding-left: 10px;
+		padding-top: 10upx;
+	}
+
+	.nickname {
+		font-weight: bold;
+		font-size: 25px;
+	}
+
+	.fans {
+		color: rgb(153, 153, 153);
+		font-size: 16px;
 	}
 
 	.setting {
@@ -189,41 +509,50 @@
 	}
 
 	.middle {
-		margin-top: 20px;
+		padding-top: 20px;
 		display: flex;
-		width: 100%;
-		height: 150upx;
+		width: 95%;
+		height: 175upx;
+		margin: 0 auto;
 		margin-bottom: 27upx;
+		border-bottom: 1px solid #eee;
+		border-radius: 10px;
+		box-shadow: 1px 2px 10px #eee;
 	}
 
 	.it {
 		display: flex;
 		flex-direction: column;
 		/* border:  #eee; */
-
 		width: 25%;
 		text-align: center;
-		line-height: 40upx;
+		line-height: 35upx;
 	}
 
 	.it image {
-		width: 40px;
-		height: 40px;
-		padding-left: 19px;
+		width: 35px;
+		height: 35px;
+		padding-left: 29px;
 		padding-bottom: 8px;
 	}
 
-	.tx {
-		font-size: 20px;
-		/* font-weight: bold; */
-		color: rgb(62, 175, 14);
+	.My {
+		padding-bottom: 10upx;
+		text-align: center;
 	}
 
-	.kong {
-		width: 50upx;
+	.tx {
+		font-size: 14px;
+		/* font-weight: bold; */
+		color: rgb(153, 153, 153);
 	}
-	.kong1{
-		height: 50upx;
-		background-color:#eee;
+
+	.kong1 {
+		height: 28upx;
+		background-color: #eee;
+	}
+
+	.MySwiper {
+		border-radius: 15px;
 	}
 </style>

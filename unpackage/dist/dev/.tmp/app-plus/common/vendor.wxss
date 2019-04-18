@@ -1,3 +1,196 @@
+
+.grace-mask{background:rgba(0, 0, 0, 0.5); position:fixed; width:100%; height:100%; left:0; top:0; z-index:1;}
+.grace-mask-view{width:80%; position:fixed; left:50%; top:50%; border-radius:6px; z-index:99; -webkit-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);}
+.grace-mask-close{width:100%; height:35px; text-align:right; color:#FFF;}
+.grace-mask-view-content{width:100%; border-radius:5px;}
+@font-face {font-family: "grace-mask-icon";
+  src: url('data:application/x-font-woff2;charset=utf-8;base64,d09GMgABAAAAAAMcAAsAAAAABsgAAALNAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHEIGVgCCcAqBVIFfATYCJAMICwYABCAFhG0HMBsFBsguIScbXkRDZb0wIhLsUaV71yu1ivPxEEG0H/vZe4dqUo1EMQtJLBUSpE79Egrta0jmzf/ar70T25CRnX7mCRFrp2+/+P4Fry4leqk0hgaNeDSagUOOjpRZizxg+f/dbIFNnM9vaXYqWT/t9A+TBG8Y1gCyv9aSQKA3gQH+Dy6nvwIKZB5QbnMMHhMwsDSgsTZFViABeMPYTQQP8DiBSh2iPAsDY3MQloFxgbhWpBqEC25ZdmLlQmnD0izuAOXpxvsA4JZ/Pz5COsIkJQVQsHPa34SuNzdMaOEfjCLAWc4IZxUFxoBMHDSGt/iEQ/apDPv1gGPlBm/+T7XiqH+eKAWyq0Gbzn4mDuY+anYCWbYvACeTbiMNtW2+xrmU5kOZFGEeHp6T3xZKWax2gziFRDI/e+XREub5HQ4WCAVhPJyjUJiP56fLMx0t3i4/u+7+6JH/sX3DNk/t03TF0pnf2lWrj+3nL7/++1br0b7lS8vnWOYo3BdZOXMT+atp//djv0IyzyDxqJKIe3qGIVfJiK0IrcCOFRd0AfxX5Jv5u79xPf6pUnd+h6syeF3d5M7/MsOsoPweLMG/5AysyzEPaFIOOY3WZGHS2IRKlfifaW/0MVXecuPxUK7l9q1l2jMolOtDM2kMSlQZh1LlpqHSqMHVVZpwPpErMGJbg1DvDpJaT6FQ7wXNpHco0aoFperDB5WOot+yykAoxHOsCWzS+jpVGpbJkE4QkTuD0rJe43kepywgdxUfTcWT5dggmsiXmOGuSGkhGGXcMuiAdhrqukVtbqnYEHFZCLucSLCmN8UblgHEPA7VCKiJqltHKRosJkZbC6Ty+RlIskxXwzuKRswLEOdSOqdS4pID0EGxOajoUV5xrZCkCQJDMZzFQA1og5BOZ6Hs5kEq1CDEyROCtrIEbMaGiuPbS40fyHLKAIoUsF+h9Gy5ZtYVAAAAAA==') format('woff2');
+}
+.grace-mask-icon {
+  font-family: "grace-mask-icon" !important;
+  font-size: 28px;
+  font-style: normal;
+}
+.icon-close:before {
+  content: "\E67F";
+}
+
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.uni-grid {
+  position: relative;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.uni-grid__flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+            flex-direction: row;
+}
+.uni-grid-item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+}
+.uni-grid-item:before {
+      display: block;
+      content: " ";
+      padding-bottom: 100%;
+}
+.uni-grid-item:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      -webkit-transform-origin: center;
+          -ms-transform-origin: center;
+              transform-origin: center;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      border-color: #c8c7cc;
+      border-style: solid;
+      border-width: 1px;
+      -webkit-transform: scale(0.5);
+      -ms-transform: scale(0.5);
+          transform: scale(0.5);
+      border-top-width: 0;
+      border-left-width: 0;
+}
+.uni-grid-item__content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -webkit-flex-direction: column;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+}
+.uni-grid-item-text {
+      font-size: 32rpx;
+      color: #333;
+      margin-top: 12rpx;
+}
+.uni-grid-item-hover {
+      background-color: #f1f1f1;
+}
+.uni-grid-item-image {
+      width: 80rpx;
+      height: 80rpx;
+}
+.uni-grid .uni-grid__flex:first-child .uni-grid-item:after {
+  border-top-width: 1px;
+}
+.uni-grid .uni-grid__flex .uni-grid-item:first-child:after {
+  border-left-width: 1px;
+}
+/* 无外边框 */
+.uni-grid.uni-grid-no-out-border .uni-grid__flex:first-child .uni-grid-item:after {
+  border-top-width: 0;
+}
+.uni-grid.uni-grid-no-out-border .uni-grid__flex:last-child .uni-grid-item:after {
+  border-bottom-width: 0;
+}
+.uni-grid.uni-grid-no-out-border .uni-grid__flex .uni-grid-item:first-child:after {
+  border-left-width: 0;
+}
+.uni-grid.uni-grid-no-out-border .uni-grid__flex .uni-grid-item:last-child:after {
+  border-right-width: 0;
+}
+/* 无边框 */
+.uni-grid.uni-grid-no-border .uni-grid-item:after {
+  border-width: 0;
+}
+.uni-grid.uni-grid-no-border .uni-grid__flex:first-child .uni-grid-item:after {
+  border-top-width: 0px;
+}
+.uni-grid.uni-grid-no-border .uni-grid__flex .uni-grid-item:first-child:after {
+  border-left-width: 0px;
+}
+.uni-grid-item-oblong.uni-grid-item:before {
+  padding-bottom: 60%;
+}
+.uni-grid-item-oblong .uni-grid-item__content {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+.uni-grid-item-oblong .uni-grid-item-image {
+  width: 52rpx;
+  height: 52rpx;
+}
+.uni-grid-item-oblong .uni-grid-item-text {
+  margin-top: 0;
+  margin-left: 12rpx;
+}
+
 @charset "UTF-8";
 /**
  * 这里是uni-app内置的常用样式变量
@@ -621,5 +814,126 @@ uni-icon {
 }
 .uni-list > .uni-list-item:last-child .uni-list-item-container:after {
   height: 0px;
+}
+
+
+.button-item.data-v-0bddbb02:active {
+	background: #d4d4d4;
+}
+.button-item+.button-item.data-v-0bddbb02 {
+	border-left: 0.1px solid #d4d4d4;
+}
+.button-item.data-v-0bddbb02 {
+	-webkit-box-flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+	padding: 14px 0px;
+}
+.keyboard-line+.keyboard-line.data-v-0bddbb02 {
+	border-top: 0.1px solid #d4d4d4;
+}
+.keyboard-line.data-v-0bddbb02 {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+}
+.keyboard.data-v-0bddbb02 {
+	background: #fff;
+	position: absolute;
+	z-index: 999;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	font-size: 17px;
+}
+.dialog-close.data-v-0bddbb02 {
+	color: #999;
+	height: 20px;
+	width: 20px;
+	font-size: 15px;
+	top: 5px;
+	left: 5px;
+	position: absolute;
+}
+.dialog-close.data-v-0bddbb02:before {
+	content: "\2716";
+}
+.countdown.data-v-0bddbb02 {
+	color: #666;
+	font-size: 16px;
+}
+.resend.data-v-0bddbb02 {
+	color: #007aff;
+	font-size: 16px;
+}
+.dialog-ft.data-v-0bddbb02 {
+	margin-top: 10px;
+}
+.code-view.data-v-0bddbb02 {
+	display: table;
+	text-align: center;
+	margin: 0 auto;
+	border-collapse: separate;
+	border-spacing: 10px 5px;
+}
+.code-item+.code-item.data-v-0bddbb02 {
+	margin-left: 5px;
+}
+.code-item.data-v-0bddbb02 {
+	display: table-cell;
+	border-bottom: 1px solid #999;
+	max-width: 35px;
+	min-width: 35px;
+	padding-bottom: 2px;
+	height: 30px;
+}
+.dialog-bd.data-v-0bddbb02 {
+	margin-top: 5px;
+}
+.codedialog-subtitle.data-v-0bddbb02 {
+	margin-top: 5px;
+	padding: 5px 0px;
+	font-size: 15px;
+	line-height: 1.4;
+	word-wrap: break-word;
+	word-break: break-all;
+	color: #999;
+}
+.dialog-view.data-v-0bddbb02 {
+	position: fixed;
+	z-index: 999;
+	width: 70%;
+	max-width: 300px;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -120%);
+	    -ms-transform: translate(-50%, -120%);
+	        transform: translate(-50%, -120%);
+	background-color: #fff;
+	text-align: center;
+	border-radius: 3px;
+	overflow: hidden;
+	padding: 20px 10px;
+}
+.mask.data-v-0bddbb02 {
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, .6);
+}
+.codedialog.data-v-0bddbb02 {
+	z-index: 999;
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 }
 
